@@ -5,7 +5,7 @@
  * @author Calm
  * @date 2021-07-11
  * @version v1.0.0
- * @copyright calm
+ * @copyright Calm
  */
 
 #include "header.h"

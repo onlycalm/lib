@@ -36,19 +36,19 @@
 #if DBG == ENABLE
 #define ToStr(x)                    Str(x)              //!< 宏值转字符串。
 #define Str(x)                      #x                  //!< 转字符串。
-#define FmtLot(Lv)                  "[" ToStr(Lv) "] - [" __FILE__ " <" ToStr(__LINE__) ">](" __FUNCTION__ "): "
-#define PrtLogFatal(Str, ...)       printf(FmtLot(LOG_LV_FATAL) Str "\n", ##__VA_ARGS__)
-#define PrtLogError(Str, ...)       printf(FmtLot(LOG_LV_ERROR) Str "\n", ##__VA_ARGS__)
-#define PrtLogWarn(Str, ...)        printf(FmtLot(LOG_LV_WARN) Str "\n", ##__VA_ARGS__)
-#define PrtLogInfo(Str, ...)        printf(FmtLot(LOG_LV_INFO) Str "\n", ##__VA_ARGS__)
-#define PrtLogDebug(Str, ...)       printf(FmtLot(LOG_LV_DEBUG) Str "\n", ##__VA_ARGS__)
-#define PrtLogTrace(Str, ...)       printf(FmtLot(LOG_LV_TRACE) Str "\n", ##__VA_ARGS__)
-#define PrtLogEntFun()              printf(FmtLot(LOG_LV_TRACE) "<-----Enter function----->\n")
-#define PrtLogExFun()               printf(FmtLot(LOG_LV_TRACE) "<-----Exit function----->\n")
-#define PrtLogRtn(Rtn)              printf(FmtLot(LOG_LV_INFO) "%s: %d\n", #Rtn, Rtn)
-#define PrtLogVar(Var)              printf(FmtLot(LOG_LV_INFO) "%s: %d\n", #Var, Var)
+#define FmtLog(Lv)                  "[" ToStr(Lv) "] - [" __FILE__ " <" ToStr(__LINE__) ">](" __FUNCTION__ "): "
+#define PrtLogFatal(Str, ...)       printf(FmtLog(LOG_LV_FATAL) Str "\n", ##__VA_ARGS__)
+#define PrtLogError(Str, ...)       printf(FmtLog(LOG_LV_ERROR) Str "\n", ##__VA_ARGS__)
+#define PrtLogWarn(Str, ...)        printf(FmtLog(LOG_LV_WARN) Str "\n", ##__VA_ARGS__)
+#define PrtLogInfo(Str, ...)        printf(FmtLog(LOG_LV_INFO) Str "\n", ##__VA_ARGS__)
+#define PrtLogDebug(Str, ...)       printf(FmtLog(LOG_LV_DEBUG) Str "\n", ##__VA_ARGS__)
+#define PrtLogTrace(Str, ...)       printf(FmtLog(LOG_LV_TRACE) Str "\n", ##__VA_ARGS__)
+#define PrtLogEntFun()              printf(FmtLog(LOG_LV_TRACE) "<-----Enter function----->\n")
+#define PrtLogExFun()               printf(FmtLog(LOG_LV_TRACE) "<-----Exit function----->\n")
+#define PrtLogRtn(Rtn)              printf(FmtLog(LOG_LV_INFO) "%s: %d\n", #Rtn, Rtn)
+#define PrtLogVar(Var)              printf(FmtLog(LOG_LV_INFO) "%s: %d\n", #Var, Var)
 #elif DBG == DISABLE
-#define FmtLot()                    ((void)0u)
+#define FmtLog()                    ((void)0u)
 #define PrtLogFatal()               ((void)0u)
 #define PrtLogError()               ((void)0u)
 #define PrtLogWarn()                ((void)0u)

@@ -1,6 +1,6 @@
 /**
- * @file dbg.c
- * @brief Debug模块。
+ * @file log.c
+ * @brief log模块。
  * @details 无
  * @author Calm
  * @date 2021-08-11
@@ -8,8 +8,8 @@
  * @copyright Calm
  */
 
-#include "header.h"
+#include "hdr.h"
 
-#ifdef DBG_H
+#ifdef LOG_H
 
-#endif //DBG_H
+#endif //LOG_H

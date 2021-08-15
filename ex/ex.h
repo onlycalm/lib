@@ -11,7 +11,7 @@
 #ifndef EX_H
 #define EX_H
 
-#include "header.h"
+#include "hdr.h"
 
 #if (_PROJECT_NAME_ == _PROJECT_NAME_) && (_PROJECT_NUM_ == _PROJECT_NUM_)
 

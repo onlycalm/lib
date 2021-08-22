@@ -1,6 +1,6 @@
 # <center>lib</center>
 
-[![calm-lib-brightgreen](https://img.shields.io/badge/calm-lib-brightgreen?style=plastic&logo=appveyor "calm-lib-brightgreen")](https://github.com/onlycalm/lib)
+[![onlycalm-lib-brightgreen](https://img.shields.io/badge/calm-lib-brightgreen?style=plastic&logo=appveyor "onlycalm/lib")](https://github.com/onlycalm/lib)
 
 &emsp;&emsp;该仓库为标准库，提供代码模板、文档模板、算法库。
 

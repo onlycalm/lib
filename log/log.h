@@ -68,7 +68,7 @@
 #endif //LOG_LV
 
 #if LOG_LV >= INFO
-#def ine LogInf(Str, ...)        printf(FmtLog(INFO) Str "\n", ##__VA_ARGS__)
+#define LogInf(Str, ...)         printf(FmtLog(INFO) Str "\n", ##__VA_ARGS__)
 #else
 #define LogInf ()                ((void)0u)
 #endif //LOG_LV

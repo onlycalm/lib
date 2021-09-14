@@ -40,7 +40,7 @@
 #if LOG == ENABLE
 #define ToStr(x)                 Str(x)              //!< 宏值转字符串。
 #define Str(x)                   #x                  //!< 名转字符串。
-#define FmtLog(Lv)               "[" Str(Lv) "]-(" __FILE__ " " __FUNCTION__ " " ToStr(__LINE__) "): "
+#define FmtLog(Lv)               "[" Str(Lv) "] " __FILE__ ":" __FUNCTION__ ":" ToStr(__LINE__) " - "
 
 #if LOG_LV >= FATAL
 #define LogFat(Str, ...)         printf(FmtLog(FATAL) Str "\n", ##__VA_ARGS__)

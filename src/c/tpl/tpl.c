@@ -1,5 +1,5 @@
 /**
- * @file ex.c
+ * @file tpl.c
  * @brief 源文件格式模板。
  * @details 无
  * @author Calm
@@ -10,7 +10,7 @@
 
 #include "hdr.h"
 
-#ifdef EX_H
+#ifdef TPL_H
 
 #if (_PROJECT_NAME_ == _PROJECT_NAME_) && (_PROJECT_NUM_ == _PROJECT_NUM_)
 
@@ -21,7 +21,7 @@
 //分类
 //-----------------------------------------------------------------------------
 //子分类
-#define DEFINE_EX                  0u                   //!< 宏定义示例。
+#define DEFINE_TPL                 0u                   //!< 宏定义示例。
 
 /*****************************************************************************
  *枚举定义                                                                   *
@@ -208,4 +208,4 @@ void GlFunEx(void)
 }
 
 #endif //_PROJECT_NAME_ _PROJECT_NUM_
-#endif //EX_H
+#endif //TPL_H

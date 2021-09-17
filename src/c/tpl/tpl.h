@@ -1,5 +1,5 @@
 /**
- * @file ex.h
+ * @file tpl.h
  * @brief 头文件格式模板。
  * @details 无
  * @author Calm
@@ -8,8 +8,8 @@
  * @copyright Calm
  */
 
-#ifndef EX_H
-#define EX_H
+#ifndef TPL_H
+#define TPL_H
 
 #include "hdr.h"
 
@@ -22,7 +22,7 @@
 //分类
 //-----------------------------------------------------------------------------
 //子分类
-#define DEFINE_EX                  0u                   //!< 宏定义示例。
+#define DEFINE_TPL                 0u                   //!< 宏定义示例。
 
 /*****************************************************************************
  *枚举定义                                                                   *
@@ -102,4 +102,4 @@ extern __inline void InlineFunEx(void);
 extern void GlFunEx(void);
 
 #endif //_PROJECT_NAME_ _PROJECT_NUM_
-#endif //EX_H
+#endif //TPL_H

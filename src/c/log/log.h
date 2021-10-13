@@ -41,46 +41,46 @@
 #if LOG == ENABLE
 #define ToStr(x)                 Str(x)              //!< 宏值转字符串。
 #define Str(x)                   #x                  //!< 名转字符串。
-#define FmtLog(Lv)               "[" Str(Lv) "] " __FILE__ ":" __FUNCTION__ ":" ToStr(__LINE__) " - "
+#define FmtLog(Lv, Str)          "[" Lv "] %s:%s:%d - " Str "\n", __FILE__, __FUNCTION__, __LINE__
 
-#if LOG_LV >= CRITICAL
-#define LogFat(Str, ...)         printf(FmtLog(CRITICAL) Str "\n", ##__VA_ARGS__)
+#if LOG_LV <= CRITICAL
+#define LogCrt(Str, ...)         printf(FmtLog("CRITICAL", Str), ##__VA_ARGS__)
 #else
-#define LogFat()                 ((void)0u)
+#define LogCrt()                 ((void)0u)
 #endif //LOG_LV
 
-#if LOG_LV >= ERROR
-#define LogErr(Str, ...)         printf(FmtLog(ERROR) Str "\n", ##__VA_ARGS__)
+#if LOG_LV <= ERROR
+#define LogErr(Str, ...)         printf(FmtLog("ERROR", Str) , ##__VA_ARGS__)
 #else
 #define LogErr()                 ((void)0u)
 #endif //LOG_LV
 
-#if LOG_LV >= WARNING
-#define LogWrn(Str, ...)         printf(FmtLog(WARNING) Str "\n", ##__VA_ARGS__)
+#if LOG_LV <= WARNING
+#define LogWrn(Str, ...)         printf(FmtLog("WARNING", Str), ##__VA_ARGS__)
 #else
 #define LogWrn()                 ((void)0u)
 #endif //LOG_LV
 
-#if LOG_LV >= SUCCESS
-#define LogSuc(Str, ...)         printf(FmtLog(SUCCESS) Str "\n", ##__VA_ARGS__)
+#if LOG_LV <= SUCCESS
+#define LogSuc(Str, ...)         printf(FmtLog("SUCCESS", Str), ##__VA_ARGS__)
 #else
 #define LogSuc()                 ((void)0u)
 #endif //LOG_LV
 
-#if LOG_LV >= INFO
-#define LogInf(Str, ...)         printf(FmtLog(INFO) Str "\n", ##__VA_ARGS__)
+#if LOG_LV <= INFO
+#define LogInf(Str, ...)         printf(FmtLog("INFO", Str), ##__VA_ARGS__)
 #else
 #define LogInf ()                ((void)0u)
 #endif //LOG_LV
 
-#if LOG_LV >= DEBUG
-#define LogDbg(Str, ...)         printf(FmtLog(DEBUG) Str "\n", ##__VA_ARGS__)
+#if LOG_LV <= DEBUG
+#define LogDbg(Str, ...)         printf(FmtLog("DEBUG", Str), ##__VA_ARGS__)
 #else
 #define LogDbg()                 ((void)0u)
 #endif //LOG_LV
 
-#if LOG_LV >= TRACE
-#define LogTr(Str, ...)          printf(FmtLog(TRACE) Str "\n", ##__VA_ARGS__)
+#if LOG_LV <= TRACE
+#define LogTr(Str, ...)          printf(FmtLog("TRACE", Str), ##__VA_ARGS__)
 #else
 #define LogTr()                  ((void)0u)
 #endif //LOG_LV

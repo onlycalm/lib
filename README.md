@@ -18,7 +18,7 @@
 - [贡献(Contributing)](#贡献(Contributing))
 - [许可证(License)](#许可证(License))
 
-## 安全(Security
+## 安全(Security)
 &emsp;&emsp;本库提供的代码一般是已经经过测试或实践项目使用的代码，但也不敢保证一定不会出现问题，因此建议更多的以参考为目的的使用，谨慎不经过任何验证的拿到项目中使用。
 
 ## 背景(Background)

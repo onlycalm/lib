@@ -22,7 +22,7 @@
 - [贡献(Contributing)](#贡献(Contributing))
 - [许可证(License)](#许可证(License))
 
-## 安全(Security
+## 安全(Security)
 
 ## 背景(Background)
 

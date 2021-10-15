@@ -17,19 +17,19 @@
  *宏定义                                                                     *
  *****************************************************************************/
 #ifndef SFT_IIC_WAIT_ACK_TM
-#define SFT_IIC_WAIT_ACK_TM             7u                      //!< 约2us，等待ACK时间。
+#define SFT_IIC_WAIT_ACK_TM             7u                      //!<约2us，等待ACK时间。
 #endif //SFT_IIC_WAIT_ACK_TM
 
 #ifndef SFT_IIC_DLY
-#define SFT_IIC_DLY                     2u                      //!< 延迟2us，控制波特率约120kHz。
+#define SFT_IIC_DLY                     2u                      //!<延迟2us，控制波特率约120kHz。
 #endif //SFT_IIC_DLY
 
 #ifndef SFT_IIC_DLY_HLF
-#define SFT_IIC_DLY_HLF                 (SFT_IIC_DLY >> 1u)     //!< 延迟时间一半。
+#define SFT_IIC_DLY_HLF                 (SFT_IIC_DLY >> 1u)     //!<延迟时间一半。
 #endif //SFT_IIC_DLY_HLF
 
 #ifndef SFT_IIC_RETRY
-#define SFT_IIC_RETRY                   3u                      //!< 重试次数。
+#define SFT_IIC_RETRY                   3u                      //!<重试次数。
 #endif //SFT_IIC_RETRY
 
 /*****************************************************************************

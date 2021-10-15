@@ -19,28 +19,28 @@
 //=============================================================================
 //配置宏
 #ifndef LOG
-#define LOG                      ENABLE              //!< Log模块开关。
+#define LOG                      ENABLE              //!<Log模块开关。
 #endif //LOG
 
 #ifndef LOG_LV
-#define LOG_LV                   TRACE               //!< 默认Log等级。
+#define LOG_LV                   TRACE               //!<默认Log等级。
 #endif //LOG_LV
 
 //=============================================================================
 //Log等级
-#define CRITICAL                 50u                 //!< 致命。
-#define ERROR                    40u                 //!< 错误。
-#define WARNING                  30u                 //!< 警告。
-#define SUCCESS                  25u                 //!< 成功。
-#define INFO                     20u                 //!< 信息。
-#define DEBUG                    10u                 //!< 调试。
-#define TRACE                    5u                  //!< 跟踪。
+#define CRITICAL                 50u                 //!<致命。
+#define ERROR                    40u                 //!<错误。
+#define WARNING                  30u                 //!<警告。
+#define SUCCESS                  25u                 //!<成功。
+#define INFO                     20u                 //!<信息。
+#define DEBUG                    10u                 //!<调试。
+#define TRACE                    5u                  //!<跟踪。
 
 //-----------------------------------------------------------------------------
 //宏函数
 #if LOG == ENABLE
-#define ToStr(x)                 Str(x)              //!< 宏值转字符串。
-#define Str(x)                   #x                  //!< 名转字符串。
+#define ToStr(x)                 Str(x)              //!<宏值转字符串。
+#define Str(x)                   #x                  //!<名转字符串。
 #define FmtLog(Lv, Str)          "[" Lv "] %s:%s:%d - " Str "\n", __FILE__, __FUNCTION__, __LINE__
 
 #if LOG_LV <= CRITICAL

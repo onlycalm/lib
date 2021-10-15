@@ -21,7 +21,7 @@
 //分类
 //-----------------------------------------------------------------------------
 //子分类
-#define DEFINE_TPL                 0u                   //!< 宏定义示例。
+#define DEFINE_TPL                 0u                   //!<宏定义示例。
 
 /*****************************************************************************
  *枚举定义                                                                   *
@@ -35,8 +35,8 @@
  */
 typedef enum EnumEx
 {
-    EnumEx1 = 1u //!< 枚举成员定义示例。
-    EnumEx1 = 2u //!< 枚举成员定义示例。
+    EnumEx1 = 1u //!<枚举成员定义示例。
+    EnumEx1 = 2u //!<枚举成员定义示例。
 }EEnumEx;
 
 /*****************************************************************************
@@ -51,10 +51,10 @@ typedef enum EnumEx
  */
 typedef struct StructEx
 {
-    Bool bStructEx;   //!< 结构体成员定义示例。
-    Byte byStructEx;  //!< 结构体成员定义示例。
-    Word wStructEx;   //!< 结构体成员定义示例。
-    DWord dwStructEx; //!< 结构体成员定义示例。
+    Bool bStructEx;   //!<结构体成员定义示例。
+    Byte byStructEx;  //!<结构体成员定义示例。
+    Word wStructEx;   //!<结构体成员定义示例。
+    DWord dwStructEx; //!<结构体成员定义示例。
 }STStructEx;
 
 /*****************************************************************************
@@ -69,12 +69,12 @@ typedef struct StructEx
  */
 typedef union UnionEx
 {
-    Byte byUnionEx; //!< 结构体成员定义示例。
+    Byte byUnionEx; //!<结构体成员定义示例。
 
     struct
     {
-        Byte byUnionEx1 : 1u; //!< 结构体成员定义示例。
-        Byte byUnionEx2 : 1u; //!< 结构体成员定义示例。
+        Byte byUnionEx1 : 1u; //!<结构体成员定义示例。
+        Byte byUnionEx2 : 1u; //!<结构体成员定义示例。
     };
 }UUnionEx;
 

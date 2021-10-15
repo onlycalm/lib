@@ -27,8 +27,8 @@
  */
 typedef enum IicAckTyp
 {
-    IicAckTypAck,  //!< 应答。
-    IicAckTypNAck, //!< 非应答。
+    IicAckTypAck,  //!<应答。
+    IicAckTypNAck, //!<非应答。
 }EIicAckTyp;
 
 /**
@@ -40,8 +40,8 @@ typedef enum IicAckTyp
  */
 typedef enum IicRwTyp
 {
-    IicRwTypRd = 0x01u, //!< IIC读。
-    IicRwTypWr = 0x00u  //!< IIC写。
+    IicRwTypRd = 0x01u, //!<IIC读。
+    IicRwTypWr = 0x00u  //!<IIC写。
 }EIicRdWrTyp;
 
 /*****************************************************************************

@@ -28,58 +28,56 @@
 
 //=============================================================================
 //Log等级
-#define CRITICAL                 50u                 //!<致命。
-#define ERROR                    40u                 //!<错误。
-#define WARNING                  30u                 //!<警告。
-#define SUCCESS                  25u                 //!<成功。
-#define INFO                     20u                 //!<信息。
-#define DEBUG                    10u                 //!<调试。
-#define TRACE                    5u                  //!<跟踪。
+#define LOG_CRITICAL             50u                 //!<致命。
+#define LOG_ERROR                40u                 //!<错误。
+#define LOG_WARNING              30u                 //!<警告。
+#define LOG_SUCCESS              25u                 //!<成功。
+#define LOG_INFO                 20u                 //!<信息。
+#define LOG_DEBUG                10u                 //!<调试。
+#define LOG_TRACE                5u                  //!<跟踪。
 
 //-----------------------------------------------------------------------------
 //宏函数
 #if LOG == ENABLE
-#define ToStr(x)                 Str(x)              //!<宏值转字符串。
-#define Str(x)                   #x                  //!<名转字符串。
-#define FmtLog(Lv, Str)          "[" Lv "] %s:%s:%d - " Str "\n", __FILE__, __FUNCTION__, __LINE__
+#define FmtLog(Lv, Str)          "[" Lv "] %s:%s:%d - " Str "\n", GetFileNm(__FILE__), __FUNCTION__, __LINE__
 
-#if LOG_LV <= CRITICAL
+#if LOG_LV <= LOG_CRITICAL
 #define LogCrt(Str, ...)         printf(FmtLog("CRITICAL", Str), ##__VA_ARGS__)
 #else
 #define LogCrt()                 ((void)0u)
 #endif //LOG_LV
 
-#if LOG_LV <= ERROR
+#if LOG_LV <= LOG_ERROR
 #define LogErr(Str, ...)         printf(FmtLog("ERROR", Str) , ##__VA_ARGS__)
 #else
 #define LogErr()                 ((void)0u)
 #endif //LOG_LV
 
-#if LOG_LV <= WARNING
+#if LOG_LV <= LOG_WARNING
 #define LogWrn(Str, ...)         printf(FmtLog("WARNING", Str), ##__VA_ARGS__)
 #else
 #define LogWrn()                 ((void)0u)
 #endif //LOG_LV
 
-#if LOG_LV <= SUCCESS
+#if LOG_LV <= LOG_SUCCESS
 #define LogSuc(Str, ...)         printf(FmtLog("SUCCESS", Str), ##__VA_ARGS__)
 #else
 #define LogSuc()                 ((void)0u)
 #endif //LOG_LV
 
-#if LOG_LV <= INFO
+#if LOG_LV <= LOG_INFO
 #define LogInf(Str, ...)         printf(FmtLog("INFO", Str), ##__VA_ARGS__)
 #else
 #define LogInf ()                ((void)0u)
 #endif //LOG_LV
 
-#if LOG_LV <= DEBUG
+#if LOG_LV <= LOG_DEBUG
 #define LogDbg(Str, ...)         printf(FmtLog("DEBUG", Str), ##__VA_ARGS__)
 #else
 #define LogDbg()                 ((void)0u)
 #endif //LOG_LV
 
-#if LOG_LV <= TRACE
+#if LOG_LV <= LOG_TRACE
 #define LogTr(Str, ...)          printf(FmtLog("TRACE", Str), ##__VA_ARGS__)
 #else
 #define LogTr()                  ((void)0u)

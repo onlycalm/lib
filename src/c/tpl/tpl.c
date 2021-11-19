@@ -23,6 +23,21 @@
 //子分类
 #define DEFINE_TPL                 0u                   //!<宏定义示例。
 
+//=============================================================================
+//宏函数定义
+/**
+ * @def 宏函数名。
+ * @brief 简述宏函数功能。
+ * @param[in] 参数名 参数注解。
+ * @param[out] 参数名 参数注解。
+ * @param[in, out] 参数名 参数注解。
+ * @return 函数返回注解。
+ * @retval 对返回值的说明。
+ */
+#define MacroFun() \
+do{                \
+}while(0u)
+
 /*****************************************************************************
  *枚举定义                                                                   *
  *****************************************************************************/
@@ -51,10 +66,10 @@ typedef enum EnumEx
  */
 typedef struct StructEx
 {
-    Bool bStructEx;   //!<结构体成员定义示例。
-    Byte byStructEx;  //!<结构体成员定义示例。
-    Word wStructEx;   //!<结构体成员定义示例。
-    DWord dwStructEx; //!<结构体成员定义示例。
+    bool bStructEx;   //!<结构体成员定义示例。
+    byte byStructEx;  //!<结构体成员定义示例。
+    word wStructEx;   //!<结构体成员定义示例。
+    dword dwStructEx; //!<结构体成员定义示例。
 }STStructEx;
 
 /*****************************************************************************
@@ -69,12 +84,12 @@ typedef struct StructEx
  */
 typedef union UnionEx
 {
-    Byte byUnionEx; //!<结构体成员定义示例。
+    byte byUnionEx; //!<结构体成员定义示例。
 
     struct
     {
-        Byte byUnionEx1 : 1u; //!<结构体成员定义示例。
-        Byte byUnionEx2 : 1u; //!<结构体成员定义示例。
+        byte byUnionEx1 : 1u; //!<结构体成员定义示例。
+        byte byUnionEx2 : 1u; //!<结构体成员定义示例。
     };
 }UUnionEx;
 
@@ -83,8 +98,8 @@ typedef union UnionEx
  *****************************************************************************/
 //=============================================================================
 //全局变量
-extern Byte g_byGlVar;
-extern const Byte gc_byGlCstVar;
+extern byte g_byGlVar;
+extern const byte gc_byGlCstVar;
 
 /*****************************************************************************
  *函数声明                                                                   *
@@ -93,24 +108,24 @@ extern const Byte gc_byGlCstVar;
 //静态函数
 //-----------------------------------------------------------------------------
 //内敛函数
-static __forceinline void StcForceInlineFunEx(void);
-static __inline void StcInlineFunEx(void);
+extern STC_FRC_INLINE void StcForceInlineFunEx(void);
+extern STC_INLINE void StcInlineFunEx(void);
 
 //-----------------------------------------------------------------------------
 //普通函数
-static void StcFunEx(void);
+extern static void StcFunEx(void);
 
 /*****************************************************************************
  *变量定义                                                                   *
  *****************************************************************************/
 //=============================================================================
 //全局变量
-Byte g_byGlVar = 0u;
-const Byte gc_byGlCstVar = 0u;
+byte g_byGlVar = 0u;
+const byte gc_byGlCstVar = 0u;
 
 //=============================================================================
 //静态变量
-static Byte s_byLclVar = 0u;
+static byte s_byLclVar = 0u;
 
 /*****************************************************************************
  *函数定义                                                                   *
@@ -120,7 +135,7 @@ static Byte s_byLclVar = 0u;
 //-----------------------------------------------------------------------------
 //内敛函数
 /**
- * @fn static __forceinline void StcForceInlineFunEx(void)
+ * @fn static STC_FRC_INLINE void StcForceInlineFunEx(void)
  * @brief 静态内敛函数定义示例。
  * @details 无
  * @param void
@@ -128,12 +143,12 @@ static Byte s_byLclVar = 0u;
  * @note 无
  * @attention 无
  */
-static __forceinline void StcForceInlineFunEx(void)
+STC_FRC_INLINE void StcForceInlineFunEx(void)
 {
 }
 
 /**
- * @fn static __inline void StcInlineFunEx(void)
+ * @fn STC_INLINE void StcInlineFunEx(void)
  * @brief 静态内敛函数定义示例。
  * @details 无
  * @param void
@@ -141,7 +156,7 @@ static __forceinline void StcForceInlineFunEx(void)
  * @note 无
  * @attention 无
  */
-static __inline void StcInlineFunEx(void)
+STC_INLINE void StcInlineFunEx(void)
 {
 }
 
@@ -163,30 +178,17 @@ static void StcFunEx(void)
 //=============================================================================
 //全局函数
 //-----------------------------------------------------------------------------
-//内敛函数
+//弱函数
 /**
- * @fn __forceinline void ForceInlineFunEx(void)
- * @brief 内敛函数定义示例。
+ * @fn WEAK void WeakFunEx(void)
+ * @brief 弱函数定义示例。
  * @details 无
  * @param void
  * @return void
  * @note 无
  * @attention 无
  */
-__forceinline void ForceInlineFunEx(void)
-{
-}
-
-/**
- * @fn __inline void InlineFunEx(void)
- * @brief 内敛函数定义示例。
- * @details 无
- * @param void
- * @return void
- * @note 无
- * @attention 无
- */
-__inline void InlineFunEx(void)
+WEAK void WeakFunEx(void)
 {
 }
 
@@ -203,8 +205,8 @@ __inline void InlineFunEx(void)
  */
 void GlFunEx(void)
 {
-    const Byte c_byCstVar = 0u;
-    static Byte s_byStcVar = 0u;
+    const byte c_byCstVar = 0u;
+    static byte s_byStcVar = 0u;
 }
 
 #endif //_PROJECT_NAME_ _PROJECT_NUM_

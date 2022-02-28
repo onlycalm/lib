@@ -150,12 +150,12 @@ typedef enum IicRwTyp
 //-----------------------------------------------------------------------------
 //内敛函数
 /**
- * @fn STC_INLINE void HdlIicStrt(void)
+ * @fn STC_FRC_INLINE void HdlIicStrt(void)
  * @brief 处理IIC Start动作。
  * @param void
  * @return void
  */
-STC_INLINE void HdlIicStrt(void)
+STC_FRC_INLINE void HdlIicStrt(void)
 {
     SetSdaPol(HIGH);
     SetSclPol(HIGH);
@@ -167,12 +167,12 @@ STC_INLINE void HdlIicStrt(void)
 }
 
 /**
- * @fn STC_INLINE void HdlIicStp(void)
+ * @fn STC_FRC_INLINE void HdlIicStp(void)
  * @brief 处理IIC Stop动作。
  * @param void
  * @return void
  */
-STC_INLINE void HdlIicStp(void)
+STC_FRC_INLINE void HdlIicStp(void)
 {
     SetSclPol(LOW);
     SetSdaPol(LOW);
@@ -185,12 +185,12 @@ STC_INLINE void HdlIicStp(void)
 }
 
 /**
- * @fn STC_INLINE void HdlIicAck(void)
+ * @fn STC_FRC_INLINE void HdlIicAck(void)
  * @brief 处理IIC Ack动作。
  * @param void
  * @return void
  */
-STC_INLINE void HdlIicAck(void)
+STC_FRC_INLINE void HdlIicAck(void)
 {
     SetSdaPol(LOW);
     SetSclPol(LOW);
@@ -205,12 +205,12 @@ STC_INLINE void HdlIicAck(void)
 }
 
 /**
- * @fn STC_INLINE void HdlIicNAck(void)
+ * @fn STC_FRC_INLINE void HdlIicNAck(void)
  * @brief 处理IIC NAck动作。
  * @param void
  * @return void
  */
-STC_INLINE void HdlIicNAck(void)
+STC_FRC_INLINE void HdlIicNAck(void)
 {
     SetSclPol(LOW);
     SetSdaPol(HIGH);
@@ -223,12 +223,12 @@ STC_INLINE void HdlIicNAck(void)
 }
 
 /**
- * @fn STC_INLINE void HdlIicWrBy(byte byDat)
+ * @fn STC_FRC_INLINE void HdlIicWrBy(byte byDat)
  * @brief 处理IIC 写动作，写1byte数据。
  * @param[in] byDat 写入数据。
  * @return 故障码。
  */
-STC_INLINE void HdlIicWrBy(byte byDat)
+STC_FRC_INLINE void HdlIicWrBy(byte byDat)
 {
     byte byi = 0u;
 
@@ -249,12 +249,12 @@ STC_INLINE void HdlIicWrBy(byte byDat)
 }
 
 /**
- * @fn STC_INLINE dtc HdlIicRdBy(byte* const cpabyDat)
+ * @fn STC_FRC_INLINE dtc HdlIicRdBy(byte* const cpabyDat)
  * @brief 处理IIC 读动作，读1byte数据。
  * @param[out] cpabyDat 读1byte数据。
  * @return 故障码。
  */
-STC_INLINE dtc HdlIicRdBy(byte* const cpabyDat)
+STC_FRC_INLINE dtc HdlIicRdBy(byte* const cpabyDat)
 {
     byte byi = 0u;
     dtc dtcRtn = DTC_OK;
@@ -288,11 +288,12 @@ STC_INLINE dtc HdlIicRdBy(byte* const cpabyDat)
 }
 
 /**
- * @fn STC_INLINE EIicAckTyp HdlIicWaitAck(void)
+ * @fn STC_FRC_INLINE EIicAckTyp HdlIicWaitAck(void)
  * @brief 处理IIC Ack或NAck动作。
- * @return void
+ * @param void
+ * @return Ack类型。
  */
-STC_INLINE EIicAckTyp HdlIicWaitAck(void)
+STC_FRC_INLINE EIicAckTyp HdlIicWaitAck(void)
 {
     EIicAckTyp eIicAckTyp = IicAckTypNAck;
 
@@ -317,7 +318,8 @@ STC_INLINE EIicAckTyp HdlIicWaitAck(void)
 //=============================================================================
 //普通函数
 /**
- * @fn dtc WrIicSerBy(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, byte* const cpabyDat)
+ * @fn dtc WrIicSerBy(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt,
+ *                    const byte* const cpabyDat)
  * @brief IIC主设备写连续byte数据到从机。
  * @details 先发数组小下标。
  * @param[in] cbySlvAdr 从机地址。
@@ -327,7 +329,7 @@ STC_INLINE EIicAckTyp HdlIicWaitAck(void)
  * @return 故障检测码。
  * @note 7bit地址。
  */
-dtc WrIicSerBy(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, byte* const cpabyDat)
+dtc WrIicSerBy(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, const byte* const cpabyDat)
 {
     word wi = 0u;
     EIicAckTyp eIicAckTyp = IicAckTypNAck;
@@ -369,8 +371,8 @@ dtc WrIicSerBy(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, b
 }
 
 /**
- * @fn dtc WrIicSerWd(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
- *                    const EEndn ceEndn, word* const cpawDat)
+ * @fn dtc WrIicSerWd(const byte cbySlvAdr, const byte cbyRegAdr, cosnt word cwWdAmt,
+ *                    const EEndn ceEndn, const word* const cpawDat)
  * @brief IIC主设备写连续word数据到从机。
  * @details 先发数组小下标。
  * @param[in] cbySlvAdr 从机地址。
@@ -384,7 +386,7 @@ dtc WrIicSerBy(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, b
  * @note 7bit地址。
  */
 dtc WrIicSerWd(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
-               const EEndn ceEndn, word* const cpawDat)
+               const EEndn ceEndn, const word* const cpawDat)
 {
     byte byLoBy = 0u;
     byte byHiBy = 0u;
@@ -609,7 +611,8 @@ dtc RdIicSerWd(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
 }
 
 /**
- * @fn dtc WrIicSerByChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, byte* const cpabyDat)
+ * @fn dtc WrIicSerByChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt,
+ *                       const byte* const cpabyDat)
  * @brief IIC主设备写连续word数据到从机，带故障重试。
  * @details 先写数组小下标。
  * @param[in] cbySlvAdr 从机地址。
@@ -619,7 +622,7 @@ dtc RdIicSerWd(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
  * @return 故障检测码。
  * @note 7bit地址。
  */
-dtc WrIicSerByChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, byte* const cpabyDat)
+dtc WrIicSerByChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, const byte* const cpabyDat)
 {
     byte byWrCnt = 0u;
     dtc dtcWrIicSerBy = DTC_OK;
@@ -641,7 +644,7 @@ dtc WrIicSerByChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt
 
 /**
  * @fn dtc WrIicSerWdChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
- *                       const EEndn ceEndn, word* const cpawDat)
+ *                       const EEndn ceEndn, const word* const cpawDat)
  * @brief IIC主设备写连续word数据到从机，带故障重试。
  * @details 先读数组小下标。
  * @param[in] cbySlvAdr 从机地址。
@@ -655,7 +658,7 @@ dtc WrIicSerByChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt
  * @note 7bit地址。
  */
 dtc WrIicSerWdChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
-                  const EEndn ceEndn, word* const cpawDat)
+                  const EEndn ceEndn, const word* const cpawDat)
 {
     byte byWrCnt = 0u;
     dtc dtcWrIicSerWd = DTC_OK;
@@ -686,7 +689,7 @@ dtc WrIicSerWdChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt
  * @return 故障检测码。
  * @note 7bit地址。
  */
-dtc RdIicSerByChk(const byte cbySlvAdr, byte cbyRegAdr, const word cwByAmt, byte* cpabyDat)
+dtc RdIicSerByChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, byte* const cpabyDat)
 {
     byte byWrCnt = 0u;
     dtc dtcWrIicSerBy = DTC_OK;
@@ -743,7 +746,8 @@ dtc RdIicSerWdChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt
 }
 
 /**
- * @fn dtc WrIicSerByRcl(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, byte* const cpabyDat)
+ * @fn dtc WrIicSerByRcl(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt,
+ *                       const byte* const cpabyDat)
  * @brief IIC主设备写连续byte数据到从机，带回读重试。
  * @details 可控制byte数。
  * @param[in] cbySlvAdr 从机地址。
@@ -753,7 +757,7 @@ dtc RdIicSerWdChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt
  * @return 故障检测码。
  * @note 7bit地址。
  */
-dtc WrIicSerByRcl(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, byte* const cpabyDat)
+dtc WrIicSerByRcl(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, const byte* const cpabyDat)
 {
     byte byWrCnt = 0u;
     bool bEq = FALSE;
@@ -790,7 +794,7 @@ dtc WrIicSerByRcl(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt
 
 /**
  * @fn dtc WrIicSerWdRcl(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
- *                       const EEndn ceEndn, word* const cpawDat)
+ *                       const EEndn ceEndn, const word* const cpawDat)
  * @brief IIC主设备写连续byte数据到从机，带回读重试。
  * @details 先发数组小下标。
  * @param[in] cbySlvAdr 从机地址。
@@ -804,7 +808,7 @@ dtc WrIicSerByRcl(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt
  * @note 7bit地址。
  */
 dtc WrIicSerWdRcl(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
-                  const EEndn ceEndn, word* const cpawDat)
+                  const EEndn ceEndn, const word* const cpawDat)
 {
     byte byWrCnt = 0u;
     bool bEq = FALSE;
@@ -940,7 +944,8 @@ dtc ModByBit(const byte cbySlvAdr, const byte cbyRegAdr, const byte cbyMap, cons
 }
 
 /**
- * @fn dtc ModWdBit(const byte cbySlvAdr, const byte cbyRegAdr, const byte cbyMd, const EEndn ceEndn, const word cwMap)
+ * @fn dtc ModWdBit(const byte cbySlvAdr, const byte cbyRegAdr, const byte cbyMd,
+ *                  const EEndn ceEndn, const word cwMap)
  * @brief 修改word位。
  * @details 置位或复位寄存器位，区分字节序。
  * @param[in] cbySlvAdr 从机地址。
@@ -954,7 +959,8 @@ dtc ModByBit(const byte cbySlvAdr, const byte cbyRegAdr, const byte cbyMap, cons
  * @param[in] cwMap 寄存器映射位。
  * @return 故障检测码。
  */
-dtc ModWdBit(const byte cbySlvAdr, const byte cbyRegAdr, const byte cbyMd, const EEndn ceEndn, const word cwMap)
+dtc ModWdBit(const byte cbySlvAdr, const byte cbyRegAdr, const byte cbyMd, const EEndn ceEndn,
+             const word cwMap)
 {
     word wTmp = 0u;
     dtc dtcRtn = DTC_OK;

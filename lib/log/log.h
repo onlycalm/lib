@@ -11,7 +11,8 @@
 #ifndef LOG_H
 #define LOG_H
 
-#include "hdr.h"
+#include <stdio.h>
+#include "com.h"
 
 /*****************************************************************************
  *宏定义                                                                     *

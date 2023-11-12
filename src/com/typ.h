@@ -11,7 +11,8 @@
 #ifndef TYPE_H
 #define TYPE_H
 
-#include "hdr.h"
+#include <stdint.h>
+#include <string.h>
 
 /*****************************************************************************
  *类型定义                                                                   *

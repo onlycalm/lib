@@ -11,7 +11,8 @@
 #ifndef COM_H
 #define COM_H
 
-#include "hdr.h"
+#include <stdio.h>
+#include "typ.h"
 
 /*****************************************************************************
  *宏定义                                                                     *

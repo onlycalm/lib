@@ -8,7 +8,8 @@
  * @copyright Calm
  */
 
-#include "hdr.h"
+#include <stdio.h>
+#include "com.h"
 
 #ifdef COM_H
 

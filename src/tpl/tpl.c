@@ -52,7 +52,7 @@ typedef enum EnumEx
 {
     EnumEx1 = 1u //!<枚举成员定义示例。
     EnumEx1 = 2u //!<枚举成员定义示例。
-}EEnumEx;
+} enEnumEx;
 
 /*****************************************************************************
  *结构体定义                                                                 *
@@ -70,7 +70,7 @@ typedef struct StructEx
     byte byStructEx;  //!<结构体成员定义示例。
     word wStructEx;   //!<结构体成员定义示例。
     dword dwStructEx; //!<结构体成员定义示例。
-}STStructEx;
+} stStructEx;
 
 /*****************************************************************************
  *联合定义                                                                   *
@@ -91,7 +91,7 @@ typedef union UnionEx
         byte byUnionEx1 : 1u; //!<结构体成员定义示例。
         byte byUnionEx2 : 1u; //!<结构体成员定义示例。
     };
-}UUnionEx;
+} unUnionEx;
 
 /*****************************************************************************
  *变量声明                                                                   *
@@ -99,7 +99,7 @@ typedef union UnionEx
 //=============================================================================
 //全局变量
 extern byte g_byGlVar;
-extern const byte gc_byGlCstVar;
+extern const byte g_kbyGlCstVar;
 
 /*****************************************************************************
  *函数声明                                                                   *
@@ -125,7 +125,10 @@ static byte s_byLclVar = 0u;
 //=============================================================================
 //全局变量
 byte g_byGlVar = 0u;
-const byte gc_byGlCstVar = 0u;
+const byte g_kbyGlCstVar = 0u;
+enEnumEx g_eEnumEx = EnumEx1;
+stStructEx g_tStructEx = {0U};
+unUnionEx g_uUnionEx = {0U};
 
 /*****************************************************************************
  *函数定义                                                                   *
@@ -205,7 +208,7 @@ WEAK void WeakFunEx(void)
  */
 void GlFunEx(void)
 {
-    const byte c_byCstVar = 0u;
+    const byte kbyCstVar = 0u;
     static byte s_byStcVar = 0u;
 }
 

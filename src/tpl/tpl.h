@@ -58,7 +58,7 @@ typedef enum EnumEx
 {
     EnumEx1 = 1u, //!<枚举成员定义示例。
     EnumEx1 = 2u  //!<枚举成员定义示例。
-}EEnumEx;
+} enEnumEx;
 
 /*****************************************************************************
  *结构体定义                                                                 *
@@ -76,7 +76,7 @@ typedef struct StructEx
     byte byStructEx;  //!<结构体成员定义示例。
     word wStructEx;   //!<结构体成员定义示例。
     dword dwStructEx; //!<结构体成员定义示例。
-}STStructEx;
+} stStructEx;
 
 /*****************************************************************************
  *联合定义                                                                   *
@@ -97,7 +97,7 @@ typedef union UnionEx
         byte byUnionEx1 : 1u; //!<结构体成员定义示例。
         byte byUnionEx2 : 1u; //!<结构体成员定义示例。
     };
-}UUnionEx;
+} unUnionEx;
 
 /*****************************************************************************
  *变量声明                                                                   *
@@ -105,7 +105,10 @@ typedef union UnionEx
 //=============================================================================
 //全局变量
 extern byte g_byGlVar;
-extern const byte gc_byGlCstVar;
+extern const byte g_kbyGlCstVar;
+extern enEnumEx g_eEnumEx;
+extern stStructEx g_tStructEx;
+extern unUnionEx g_uUnionEx;
 
 /*****************************************************************************
  *函数声明                                                                   *

@@ -2,9 +2,9 @@
 
 [![onlycalm-lib-brightgreen](https://img.shields.io/badge/calm-lib-brightgreen?style=plastic&logo=appveyor "onlycalm/lib")](https://github.com/onlycalm/lib)
 
-&emsp;&emsp;该仓库为标准库，提供代码模板、文档模板、算法库。
+&emsp;&emsp;该仓库为常用通用、可移植模块库，存放 C / C++ / Python 语言的通用模块，代码以模块为单位存放。
 
-&emsp;&emsp;构建该仓库的主要目的是提供一套标准的代码模板方便未来的编程统一和继承性；提供统一文档模板，方便文档的编写和风格的统一；提供通用的算法库，用为未来参与的各种项目中，减少重复开发以及提供经过检验的可靠算法。
+&emsp;&emsp;构建该仓库的主要目的是提供一套可复用、可移植的通用模块，减少重复开发，统一代码与文档风格，方便未来项目继承与复用。
 
 ## 目录(Sections)
 
@@ -12,6 +12,7 @@
 - [背景(Background)](#背景(Background))
 - [安装(Install)](#安装(Install))
 - [用法(Usage)](#用法(Usage))
+- [模块(Modules)](#模块(Modules))
 - [API](#API)
 - [维护者(Maintainers)](#维护者(Maintainers))
 - [致谢(Thanks)](#致谢(Thanks))
@@ -28,7 +29,29 @@
 &emsp;&emsp;无可执行文件，无安装运行过程。
 
 ## 用法(Usage)
-&emsp;&emsp;该仓库代码拷贝到在c/c++项目代码中通过调用API使用。
+&emsp;&emsp;按语言进入对应目录（c/、cpp/、python/），将所需模块代码拷贝到项目中，通过调用其 API 使用。
+
+## 模块(Modules)
+
+&emsp;&emsp;本仓库按语言分类存放常用通用、可移植模块，各模块以独立目录为单位组织。
+
+### C 语言（c/）
+
+| 模块 | 说明 |
+| --- | --- |
+| [com](c/com) | 公共基础模块，提供通用宏、数据类型、错误码、字节序与字节/字比较等。 |
+| [log](c/log) | 分级彩色日志模块，支持终端与日志文件双输出、等级过滤、时间戳、字体样式与颜色等配置。 |
+| [dtc](c/dtc) | DTC(Diagnostic Trouble Code) 诊断故障码定义。 |
+| [sftiic](c/sftiic) | 软件 IIC（I2C）模块。 |
+| [tpl](c/tpl) | 代码模板（源文件/头文件格式模板）。 |
+
+&emsp;&emsp;log 模块文档在本地生成：进入 `c/log/` 执行 `doxygen Doxyfile`，输出到 `c/log/doc/html/`。
+
+### C++ 语言（cpp/）
+&emsp;&emsp;预留，暂无模块。
+
+### Python 语言（python/）
+&emsp;&emsp;预留，暂无模块。
 
 ## API
 &emsp;&emsp;略。

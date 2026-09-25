@@ -138,7 +138,6 @@ unUnionEx g_uUnionEx = {0U};
 //-----------------------------------------------------------------------------
 //内敛函数
 /**
- * @fn static STC_FRC_INLINE void StcForceInlineFunEx(void)
  * @brief 静态内敛函数定义示例。
  * @details 无
  * @param void
@@ -151,7 +150,6 @@ STC_FRC_INLINE void StcForceInlineFunEx(void)
 }
 
 /**
- * @fn STC_INLINE void StcInlineFunEx(void)
  * @brief 静态内敛函数定义示例。
  * @details 无
  * @param void
@@ -166,7 +164,6 @@ STC_INLINE void StcInlineFunEx(void)
 //-----------------------------------------------------------------------------
 //普通函数
 /**
- * @fn static void StcFunEx(void)
  * @brief 静态函数定义示例。
  * @details 无
  * @param void
@@ -183,7 +180,6 @@ static void StcFunEx(void)
 //-----------------------------------------------------------------------------
 //弱函数
 /**
- * @fn WEAK void WeakFunEx(void)
  * @brief 弱函数定义示例。
  * @details 无
  * @param void
@@ -198,7 +194,6 @@ WEAK void WeakFunEx(void)
 //-----------------------------------------------------------------------------
 //普通函数
 /**
- * @fn void GlFunEx(void)
  * @brief 全局函数定义示例。
  * @details 无
  * @param void

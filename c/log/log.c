@@ -22,6 +22,10 @@
 
 #ifdef LOG_H
 
+/** @addtogroup LogModule
+ * @{
+ */
+
 #define TIME_BUFFER_SIZE 31  //!< 时间戳字符串缓冲区大小（含结尾 '\0'）。
 #define PTH_MAX_SIZE     256u //!< 路径最大长度。
 
@@ -364,5 +368,7 @@ void vidLogPrintf(const char* pcFmt, ...)
 
     va_end(args);
 }
+
+/** @} */
 
 #endif //LOG_H

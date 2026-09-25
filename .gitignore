@@ -1,0 +1,18 @@
+# 构建产物
+build/
+.cache/
+
+# 目标文件与库
+*.o
+*.a
+*.out
+*.so
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+compile_commands.json
+
+# Doxygen 生成的文档（本地生成，不入库）
+doc/

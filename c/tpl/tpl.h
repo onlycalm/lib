@@ -131,7 +131,6 @@ extern void GlFunEx(void);
 //-----------------------------------------------------------------------------
 //内敛函数
 /**
- * @fn STC_FRC_INLINE void StcForceInlineFunEx(void)
  * @brief 内敛函数定义示例。
  * @details 无
  * @param void
@@ -144,7 +143,6 @@ STC_FRC_INLINE void StcForceInlineFunEx(void)
 }
 
 /**
- * @fn STC_INLINE void StcInlineFunEx(void)
  * @brief 内敛函数定义示例。
  * @details 无
  * @param void

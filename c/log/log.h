@@ -18,6 +18,19 @@ extern "C" {
 #include <stdio.h>
 #include "com.h"
 
+/**
+ * @defgroup LogModule 日志模块
+ * @brief 分级彩色日志输出模块，支持终端与日志文件双输出。
+ * @details
+ * 提供七个日志等级（CRITICAL / ERROR / WARNING / SUCCESS / INFO / DEBUG / TRACE），
+ * 支持等级过滤、时间戳、字体样式与颜色、背景颜色等可配置项，
+ * 并可自动创建日志目录、同时输出到终端与日志文件。
+ */
+
+/** @addtogroup LogModule
+ * @{
+ */
+
 /*****************************************************************************
  *宏定义                                                                     *
  *****************************************************************************/
@@ -334,5 +347,7 @@ extern void vidLogPrintf(const char* pcFmt, ...);
 #ifdef __cplusplus
 }
 #endif // __cplusplus
+
+/** @} */
 
 #endif //LOG_H

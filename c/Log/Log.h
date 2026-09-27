@@ -327,7 +327,45 @@ extern "C" {
 #else
 #define LogTr(Str, ...) ((void)0u)
 #endif //LOG_LV
+
+#define Log(Lv, Str, ...) \
+do \
+{ \
+    if((Lv) >= LOG_CRITICAL) \
+    { \
+        LogCrt(Str, ##__VA_ARGS__); \
+    } \
+    else if((Lv) >= LOG_ERROR) \
+    { \
+        LogErr(Str, ##__VA_ARGS__); \
+    } \
+    else if((Lv) >= LOG_WARNING) \
+    { \
+        LogWrn(Str, ##__VA_ARGS__); \
+    } \
+    else if((Lv) >= LOG_SUCCESS) \
+    { \
+        LogScs(Str, ##__VA_ARGS__); \
+    } \
+    else if((Lv) >= LOG_INFO) \
+    { \
+        LogInf(Str, ##__VA_ARGS__); \
+    } \
+    else if((Lv) >= LOG_DEBUG) \
+    { \
+        LogDbg(Str, ##__VA_ARGS__); \
+    } \
+    else if((Lv) >= LOG_TRACE) \
+    { \
+        LogTr(Str, ##__VA_ARGS__); \
+    } \
+    else \
+    { \
+        ; \
+    } \
+} while(0u)
 #else
+#define Log(Lv, Str, ...) ((void)0u)
 #define FmtLog(Lv, Str)  ((void)0u)
 #define LogCrt(Str, ...) ((void)0u)
 #define LogErr(Str, ...) ((void)0u)

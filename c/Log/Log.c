@@ -18,7 +18,10 @@
 #include "Com.h"
 #include "Log.h"
 #include "Typ.h"
-#include "Err.h"
+#define ER_DOM      ER_DOM_ORD_BOT
+#define ER_SUB_DOM  ER_SUB_DOM_ORDMCU
+#define ER_MOD      ER_MOD_LOG
+#include "Er.h"
 
 #ifdef LOG_H
 
@@ -70,8 +73,8 @@ const char* pcGetTmStmp(void)
  * @details 校验路径是否为空指针、空字符串，以及是否包含非法字符（<>"|?*）。
  * @param[in] pcPth 待校验的路径字符串指针。
  * @return 校验结果。
- * @retval EC_OK 路径合法。
- * @retval EC_NOK 路径非法或入参无效。
+ * @retval ER_SUC 路径合法。
+ * @retval ER_SW_UNKN 路径非法或入参无效。
  * @see 扇入：erCrtDir、erInitLog。
  * @see 扇出：strlen、strchr、LogTr、LogErr。
  */
@@ -80,7 +83,7 @@ err erIsVldPth(const char* pcPth)
     const char* invalid_chars = "<>\"|?*";
     const char* pcChr = NULL;
     BOOL bInvChr = FALSE;
-    err erRtn = EC_NOK;
+    err erRtn = ER_SW_UNKN;
 
     if((pcPth != NULL) && (strlen(pcPth) > 0))
     {
@@ -96,20 +99,20 @@ err erIsVldPth(const char* pcPth)
         {
             LogTr("Valid path.");
 
-            erRtn = EC_OK;
+            erRtn = ER_SUC;
         }
         else
         {
             LogErr("Invalid path.");
 
-            erRtn = EC_NOK;
+            erRtn = ER_SW_UNKN;
         }
     }
     else
     {
         LogErr("Invalid function parameter.");
 
-        erRtn = EC_NOK;
+        erRtn = ER_SW_UNKN;
     }
 
     return erRtn;
@@ -145,8 +148,8 @@ char* pcGetFileNm(const char* const cpPath)
  * @details 若目录已存在且为目录类型则直接返回成功；若不存在则逐级创建缺失的中间目录。
  * @param[in] pcPth 目录路径字符串指针。
  * @return 创建结果。
- * @retval EC_OK 目录创建成功或已存在。
- * @retval EC_NOK 路径非法、创建失败或路径被文件占用。
+ * @retval ER_SUC 目录创建成功或已存在。
+ * @retval ER_SW_UNKN 路径非法、创建失败或路径被文件占用。
  * @see 扇入：erInitLog。
  * @see 扇出：strlen、erIsVldPth、LogInf、stat、LogTr、LogErr、strncpy、mkdir、LogScs。
  */
@@ -156,10 +159,10 @@ err erCrtDir(const char* pcPth)
     const char* pcChr = NULL;
     u16 u16PthSz = 0u;
     struct stat st = {0};
-    err erRtn = EC_NOK;
+    err erRtn = ER_SW_UNKN;
 
     if((pcPth != NULL) && (strlen(pcPth) > 0) &&
-       (strlen(pcPth) < PTH_MAX_SIZE) && (erIsVldPth(pcPth) == EC_OK))
+       (strlen(pcPth) < PTH_MAX_SIZE) && (erIsVldPth(pcPth) == ER_SUC))
     {
         LogInf("Directory path is %s", pcPth);
 
@@ -169,13 +172,13 @@ err erCrtDir(const char* pcPth)
             {
                 LogTr("The path already exists.");
 
-                erRtn = EC_OK;
+                erRtn = ER_SUC;
             }
             else
             {
                 LogErr("The path already exists but is not a directory.");
 
-                erRtn = EC_NOK;
+                erRtn = ER_SW_UNKN;
             }
         }
         else
@@ -185,7 +188,7 @@ err erCrtDir(const char* pcPth)
                 LogTr("The path does not exist, create a new path.");
 
                 u16PthSz = strlen(pcPth);
-                erRtn = EC_OK;
+                erRtn = ER_SUC;
 
                 for(pcChr = pcPth + 1; (pcChr - pcPth) <= u16PthSz; pcChr++)
                 {
@@ -213,7 +216,7 @@ err erCrtDir(const char* pcPth)
                                 }
                                 else
                                 {
-                                    erRtn = EC_NOK;
+                                    erRtn = ER_SW_UNKN;
                                     break;
                                 }
                             }
@@ -221,7 +224,7 @@ err erCrtDir(const char* pcPth)
                             {
                                 LogErr("Directory access failed.");
 
-                                erRtn = EC_NOK;
+                                erRtn = ER_SW_UNKN;
                                 break;
                             }
                         }
@@ -232,7 +235,7 @@ err erCrtDir(const char* pcPth)
             {
                 LogErr("Path access failed.");
 
-                erRtn = EC_NOK;
+                erRtn = ER_SW_UNKN;
             }
         }
     }
@@ -240,7 +243,7 @@ err erCrtDir(const char* pcPth)
     {
         LogErr("Invalid function parameter.");
 
-        erRtn = EC_NOK;
+        erRtn = ER_SW_UNKN;
     }
 
     LogTr("Exit erCrtDir function.");
@@ -253,8 +256,8 @@ err erCrtDir(const char* pcPth)
  * @details 校验日志文件路径，创建所需目录后以追加方式打开日志文件。
  * @param[in] pcFilePth 日志文件完整路径指针。
  * @return 初始化结果。
- * @retval EC_OK 日志文件成功打开。
- * @retval EC_NOK 路径非法、目录创建失败或文件打开失败。
+ * @retval ER_SUC 日志文件成功打开。
+ * @retval ER_SW_UNKN 路径非法、目录创建失败或文件打开失败。
  * @see 扇入：上层应用。
  * @see 扇出：strlen、erIsVldPth、LogInf、snprintf、strrchr、strcpy、erCrtDir、fopen、LogScs、LogErr、LogTr。
  */
@@ -265,7 +268,7 @@ err erInitLog(const char* pcFilePth)
     char acPth[PTH_MAX_SIZE] = {0};
     char* pcLstSlash = NULL;
     u16 u16FilePthSz = 0u;
-    err erRtn = EC_NOK;
+    err erRtn = ER_SW_UNKN;
 
     if(pcFilePth != NULL)
     {
@@ -275,7 +278,7 @@ err erInitLog(const char* pcFilePth)
 
         if((u16FilePthSz > 0) &&
            (u16FilePthSz < PTH_MAX_SIZE) &&
-           (erIsVldPth(pcFilePth) == EC_OK))
+           (erIsVldPth(pcFilePth) == ER_SUC))
         {
             snprintf(acPth, PTH_MAX_SIZE, "%s", pcFilePth);
             LogInf("Log directory path is %s", acPth);
@@ -290,7 +293,7 @@ err erInitLog(const char* pcFilePth)
                 strcpy(acPth, ".");
             }
 
-            if(erCrtDir(acPth) == EC_OK)
+            if(erCrtDir(acPth) == ER_SUC)
             {
                 pfLogFile = fopen(pcFilePth, "a");
 
@@ -298,34 +301,34 @@ err erInitLog(const char* pcFilePth)
                 {
                     LogScs("The log file has been successfully opened.");
 
-                    erRtn = EC_OK;
+                    erRtn = ER_SUC;
                 }
                 else
                 {
                     LogErr("Failed to open log file.");
 
-                    erRtn = EC_NOK;
+                    erRtn = ER_SW_UNKN;
                 }
             }
             else
             {
                 LogErr("Log directory verification failed.");
 
-                erRtn = EC_NOK;
+                erRtn = ER_SW_UNKN;
             }
         }
         else
         {
             LogErr("Log path check error.");
 
-            erRtn = EC_NOK;
+            erRtn = ER_SW_UNKN;
         }
     }
     else
     {
         LogErr("Invalid function parameter.");
 
-        erRtn = EC_NOK;
+        erRtn = ER_SW_UNKN;
     }
 
     LogTr("Exit erInitLog function.");

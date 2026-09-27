@@ -13,7 +13,10 @@
 #include "Com.h"
 #include "Log.h"
 #include "Typ.h"
-#include "Err.h"
+#define ER_DOM      ER_DOM_ORD_BOT
+#define ER_SUB_DOM  ER_SUB_DOM_ORDMCU
+#define ER_MOD      ER_MOD_COM
+#include "Er.h"
 
 #ifdef COM_H
 
@@ -137,7 +140,7 @@ err erIpToU32(const char* const kpkcIp, EEndn eEndn, u32* const kpu32Ip)
     u8 au8IpAdr[IP_V4_SZ] = {0u};
     u32 u32IpAdr = 0u;
     int asIpAdr[IP_V4_SZ] = {0u};
-    err erRslt = EC_NOK;
+    err erRslt = ER_SW_UNKN;
 
     LogInf("kpkcIp = %s", kpkcIp);
     LogInf("eEndn = %d", eEndn);
@@ -184,23 +187,23 @@ err erIpToU32(const char* const kpkcIp, EEndn eEndn, u32* const kpu32Ip)
 
                 LogInf("*kpu32Ip = 0x%08X", *kpu32Ip);
 
-                erRslt = EC_OK;
+                erRslt = ER_SUC;
             }
             else
             {
-                erRslt = EC_NOK;
+                erRslt = ER_SW_UNKN;
                 LogErr("Data overflow.");
             }
         }
         else
         {
-            erRslt = EC_NOK;
+            erRslt = ER_SW_UNKN;
             LogErr("Invalid IP address format.");
         }
     }
     else
     {
-        erRslt = EC_NOK;
+        erRslt = ER_SW_UNKN;
         LogErr("Input parameter check failed.");
     }
 

@@ -10,7 +10,9 @@
  */
 
 #include "Sta.h"
-#include "Err.h"
+#define ER_DOM      ER_DOM_ORD_BOT
+#define ER_SUB_DOM  ER_SUB_DOM_ORDMCU
+#include "Er.h"
 
 /* ===== 变量声明 ===== */
 extern const stStaCb g_kstStaCb[]; //!< 状态回调表。
@@ -25,7 +27,7 @@ static ESta s_eCurSta = STA_INIT; //!< 当前状态变量。
  * @brief 初始化状态机。
  * @details 调用初始状态的进入回调，使状态机进入初始状态。
  * @return 初始化结果。
- * @retval EC_OK 初始化成功。
+ * @retval ER_SUC 初始化成功。
  */
 err erInitSta(void)
 {
@@ -35,14 +37,14 @@ err erInitSta(void)
         g_kstStaCb[s_eCurSta].pfvidEnt(); // 处理状态进入。
     }
 
-    return EC_OK;
+    return ER_SUC;
 }
 
 /**
  * @brief 状态机周期处理函数。
  * @details 每个调用周期内依次完成：查询当前状态的转换条件；若发生转换，则退出旧状态并进入新状态；最后运行当前状态。
  * @return 处理结果。
- * @retval EC_OK 处理成功。
+ * @retval ER_SUC 处理成功。
  */
 err erTckSta(void)
 {
@@ -75,7 +77,7 @@ err erTckSta(void)
         g_kstStaCb[s_eCurSta].pfvidRun();
     }
 
-    return EC_OK;
+    return ER_SUC;
 }
 
 /**

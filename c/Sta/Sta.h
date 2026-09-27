@@ -34,14 +34,14 @@ typedef struct stStaCb
 /**
  * @brief 初始化状态机。
  * @return 初始化结果。
- * @retval EC_OK 初始化成功。
+ * @retval ER_SUC 初始化成功。
  */
 extern err erInitSta(void);
 
 /**
  * @brief 状态机周期处理函数。
  * @return 处理结果。
- * @retval EC_OK 处理成功。
+ * @retval ER_SUC 处理成功。
  */
 extern err erTckSta(void);
 

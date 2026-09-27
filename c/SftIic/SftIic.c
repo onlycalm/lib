@@ -1,5 +1,5 @@
 /**
- * @file sftiic.c
+ * @file SftIic.c
  * @brief 软件IIC模块。
  * @details IIC主机。
  * @author Calm

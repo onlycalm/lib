@@ -1,5 +1,5 @@
 /**
- * @file type.h
+ * @file Typ.h
  * @brief Type define.
  * @details None
  * @author Calm

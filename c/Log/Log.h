@@ -1,5 +1,5 @@
 /**
- * @file log.h
+ * @file Log.h
  * @brief log模块。
  * @details 无
  * @author Calm
@@ -16,7 +16,7 @@ extern "C" {
 #endif
 
 #include <stdio.h>
-#include "com.h"
+#include "Com.h"
 
 /**
  * @defgroup LogModule 日志模块

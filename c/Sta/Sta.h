@@ -1,7 +1,7 @@
 /**
  * @file Sta.h
  * @brief 状态机框架。
- * @details 定义状态回调结构体、状态回调表的外部声明及状态机 API。框架本身不含任何具体状态，具体状态与回调表由 StaCfg 提供。
+ * @details 定义状态回调结构体、状态回调表的外部声明及状态机 API。框架本身不含任何具体状态，具体状态与回调表由 StaImpl 提供。
  * @author Calm
  * @data 2026-09-26
  * @version v1.0.0
@@ -11,7 +11,7 @@
 #ifndef STA_H
 #define STA_H
 
-#include "typ.h"
+#include "Typ.h"
 #include "StaImpl.h"
 
 /* ===== 结构体定义 ===== */

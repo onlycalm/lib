@@ -1,5 +1,5 @@
 /**
- * @file main.c
+ * @file Main.c
  * @brief Log模块测试程序。
  * @details 无
  * @author Calm
@@ -8,7 +8,7 @@
  * @copyright Calm
  */
 
-#include "log.h"
+#include "Log.h"
 
 /**
  * @brief Log模块测试入口。

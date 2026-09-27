@@ -1,5 +1,5 @@
 /**
- * @file dtc.h
+ * @file Dtc.h
  * @brief DTC(Diagnostic Trouble Code)诊断故障码。
  * @author Calm
  * @date 2021-03-15

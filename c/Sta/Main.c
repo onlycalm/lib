@@ -1,5 +1,5 @@
 /**
- * @file main.c
+ * @file Main.c
  * @brief 状态机示例程序。
  * @details 演示状态机引擎的初始化与周期处理。
  * @author Calm

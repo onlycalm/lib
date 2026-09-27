@@ -1,5 +1,5 @@
 /**
- * @file StaCfg.c
+ * @file StaImpl.c
  * @brief 状态机配置模块实现。
  * @details 定义状态回调表及各状态的进入、运行、转换、退出回调函数。本文件是各项目的差异化配置，随项目不同而修改。
  * @author Calm
@@ -8,10 +8,11 @@
  * @copyright Calm
  */
 
+#include <stdio.h>
 #include "Sta.h"
 #include "StaImpl.h"
 
-#include <stdio.h>
+#ifdef STA_IMPL_H
 
 /* ===== 回调函数声明 ===== */
 /* == 静态函数 == */
@@ -524,3 +525,5 @@ static void vidExSlpSta(void)
     // 退出睡眠状态的处理逻辑。
     printf("Exiting Sleep State.\n");
 }
+
+#endif // STA_IMPL_H

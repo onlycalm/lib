@@ -1,5 +1,5 @@
 /**
- * @file StaCfg.h
+ * @file StaImpl.h
  * @brief 状态机配置模块。
  * @details 定义本项目的状态枚举。各项目的差异化状态在此定义，框架部分无需修改。
  * @author Calm
@@ -8,8 +8,8 @@
  * @copyright Calm
  */
 
-#ifndef STA_CFG_H
-#define STA_CFG_H
+#ifndef STA_IMPL_H
+#define STA_IMPL_H
 
 /* ===== 枚举定义 ===== */
 /**
@@ -31,4 +31,4 @@ typedef enum
     STA_MAX, //!< 状态最大值。
 } ESta;
 
-#endif // STA_CFG_H
+#endif // STA_IMPL_H

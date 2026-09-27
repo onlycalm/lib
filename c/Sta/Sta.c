@@ -10,7 +10,7 @@
  */
 
 #include "Sta.h"
-#include "err.h"
+#include "Err.h"
 
 /* ===== 变量声明 ===== */
 extern const stStaCb g_kstStaCb[]; //!< 状态回调表。

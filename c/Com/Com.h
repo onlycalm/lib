@@ -1,5 +1,5 @@
 /**
- * @file com.h
+ * @file Com.h
  * @brief Common module.
  * @details None
  * @author Calm
@@ -16,7 +16,7 @@ extern "C" {
 #endif
 
 #include <stdio.h>
-#include "typ.h"
+#include "Typ.h"
 
 /******************************************************************************
  * Macro definition                                                           *

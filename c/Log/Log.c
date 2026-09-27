@@ -1,5 +1,5 @@
 /**
- * @file log.c
+ * @file Log.c
  * @brief log模块。
  * @details 无
  * @author Calm
@@ -15,10 +15,10 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <unistd.h>  // for mkdir on Unix-like systems
-#include "com.h"
-#include "log.h"
-#include "typ.h"
-#include "err.h"
+#include "Com.h"
+#include "Log.h"
+#include "Typ.h"
+#include "Err.h"
 
 #ifdef LOG_H
 

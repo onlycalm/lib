@@ -1,5 +1,5 @@
 /**
- * @file err.h
+ * @file Err.h
  * @brief Error code.
  * @author Calm
  * @date 2024-11-11

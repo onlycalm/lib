@@ -1,5 +1,5 @@
 /**
- * @file com.c
+ * @file Com.c
  * @brief 通用文件。
  * @details None
  * @author Calm
@@ -10,10 +10,10 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "com.h"
-#include "log.h"
-#include "typ.h"
-#include "err.h"
+#include "Com.h"
+#include "Log.h"
+#include "Typ.h"
+#include "Err.h"
 
 #ifdef COM_H
 

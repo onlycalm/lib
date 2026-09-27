@@ -106,7 +106,7 @@ stStructEx g_tStructEx = {0U};
 unUnionEx g_uUnionEx = {0U};
 
 /* ===== 函数定义 ===== */
-/* ==静态函数== */
+/* == 静态函数 == */
 /* -- 内敛函数 -- */
 /**
  * @brief 静态内敛函数定义示例。

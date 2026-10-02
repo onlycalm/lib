@@ -13,6 +13,11 @@
 
 #include "hdr.h"
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /*****************************************************************************
  * 类型定义                                                                  *
  *****************************************************************************/
@@ -33,63 +38,62 @@ typedef int8_t s8; // 类型定义示例。
  * @return 函数返回注解。
  * @retval 对返回值的说明。
  */
-#define MacroFun() \
+#define vidMacroFun() \
 do{ /* 注释 */     \
 }while(0u)
 
 /* ===== 枚举定义 ===== */
 /**
- * @enum EnumEx
+ * @enum enEnumEx
  * @brief 枚举定义示例。
  * @details 无
  * @note 无
  * @attention 无
  */
-typedef enum EnumEx
+typedef enum enEnumEx
 {
     EnumEx1 = 1u, //!< 枚举成员定义示例。
-    EnumEx1 = 2u  //!< 枚举成员定义示例。
+    EnumEx2 = 2u, //!< 枚举成员定义示例。
 } enEnumEx;
 
 /* ===== 结构体定义 ===== */
 /**
- * @struct StructEx
+ * @struct stStructEx
  * @brief 结构体定义示例。
  * @details 无
  * @note 无
  * @attention 无
  */
-typedef struct StructEx
+typedef struct stStructEx
 {
-    bool bStructEx;   //!< 结构体成员定义示例。
-    byte byStructEx;  //!< 结构体成员定义示例。
-    word wStructEx;   //!< 结构体成员定义示例。
-    dword dwStructEx; //!< 结构体成员定义示例。
+    bl bStructEx;  //!< 结构体成员定义示例。
+    u8 u8StructEx; //!< 结构体成员定义示例。
 } stStructEx;
 
 /* ===== 联合定义 ===== */
 /**
- * @union UnionEx
+ * @union unUnionEx
  * @brief 联合定义示例。
  * @details 无
  * @note 无
  * @attention 无
  */
-typedef union UnionEx
+typedef union unUnionEx
 {
-    byte byUnionEx; //!< 结构体成员定义示例。
+    u8 u8UnionEx; //!< 结构体成员定义示例。
 
     struct
     {
-        byte byUnionEx1 : 1u; //!< 结构体成员定义示例。
-        byte byUnionEx2 : 1u; //!< 结构体成员定义示例。
+        u8 b2UnionEx1 : 2u; //!< 结构体成员定义示例。
+        u8 b4UnionEx2 : 4u; //!< 结构体成员定义示例。
+        u8 b2Rsv      : 2u; //!< 结构体成员定义示例。
     };
 } unUnionEx;
 
 /* ===== 变量声明 ===== */
 /* == 全局变量 == */
-extern byte g_byGlVar;
-extern const byte g_kbyGlCstVar;
+extern u8 g_u8GlVar;
+extern const u8 g_ku8GlCstVar;
 extern enEnumEx g_eEnumEx;
 extern stStructEx g_tStructEx;
 extern unUnionEx g_uUnionEx;
@@ -97,10 +101,10 @@ extern unUnionEx g_uUnionEx;
 /* ===== 函数声明 ===== */
 /* == 全局函数 == */
 /* -- 弱函数 -- */
-extern void WeakFunEx(void);
+extern void vidWeakFunEx(void);
 
 /* -- 普通函数 -- */
-extern void GlFunEx(void);
+extern void vidGlFunEx(void);
 
 /* ===== 函数定义 ===== */
 /* == 全局函数 == */
@@ -113,7 +117,7 @@ extern void GlFunEx(void);
  * @note 无
  * @attention 无
  */
-STC_FRC_INLINE void StcForceInlineFunEx(void)
+STC_FRC_INLINE void vidStcForceInlineFunEx(void)
 {
 }
 
@@ -125,8 +129,12 @@ STC_FRC_INLINE void StcForceInlineFunEx(void)
  * @note 无
  * @attention 无
  */
-STC_INLINE void StcInlineFunEx(void)
+STC_INLINE void vidStcInlineFunEx(void)
 {
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // TPL_H

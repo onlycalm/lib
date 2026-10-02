@@ -8,9 +8,9 @@
  * @copyright Calm
  */
 
-#include "Sta.h"
-
+#include <stdio.h>
 #include <unistd.h>
+#include "DevSta.h"
 
 /**
  * @brief 延时 1 秒。
@@ -22,13 +22,18 @@ static void vidDelay1s(void)
 
 int main(void)
 {
+    enDevSta eCurSta = DEV_STA_INIT;
+
     // 初始化状态机。
-    erInitSta();
+    erInitDevSta();
 
     while (1)
     {
         // 处理状态机。
-        erTckSta();
+        erTckDevSta();
+
+        eGetCurDevSta(&eCurSta);
+        printf("Current State: %d\n", eCurSta); // 输出当前状态。
 
         // 延时 1 秒。
         vidDelay1s();

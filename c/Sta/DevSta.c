@@ -5,14 +5,13 @@
  * @author Calm
  * @data 2026-09-26
  * @version v1.0.0
+ * @attention 转移函数中的条件判断均为占位示例，接入实际项目时需替换为真实条件。
  * @copyright Calm
  */
 
 #include <stdio.h>
 #include "Sta.h"
-#include "StaImpl.h"
-
-#ifdef STA_IMPL_H
+#include "DevSta.h"
 
 /* ===== 回调函数声明 ===== */
 /* == 静态函数 == */
@@ -37,15 +36,15 @@ static void vidRunPreSlpSta(void);
 static void vidRunRstSta(void);
 static void vidRunSlpSta(void);
 /* -- 状态转移函数 -- */
-static ESta eTrfInitSta(void);
-static ESta eTrfStbySta(void);
-static ESta eTrfNmlRdySta(void);
-static ESta eTrfNmlSta(void);
-static ESta eTrfFltSta(void);
-static ESta eTrfPreRstSta(void);
-static ESta eTrfPreSlpSta(void);
-static ESta eTrfRstSta(void);
-static ESta eTrfSlpSta(void);
+static u8 u8TrfInitSta(u8 u8CurSta);
+static u8 u8TrfStbySta(u8 u8CurSta);
+static u8 u8TrfNmlRdySta(u8 u8CurSta);
+static u8 u8TrfNmlSta(u8 u8CurSta);
+static u8 u8TrfFltSta(u8 u8CurSta);
+static u8 u8TrfPreRstSta(u8 u8CurSta);
+static u8 u8TrfPreSlpSta(u8 u8CurSta);
+static u8 u8TrfRstSta(u8 u8CurSta);
+static u8 u8TrfSlpSta(u8 u8CurSta);
 /* -- 状态退出函数 -- */
 static void vidExInitSta(void);
 static void vidExStbySta(void);
@@ -59,21 +58,46 @@ static void vidExSlpSta(void);
 
 /* ===== 变量定义 ===== */
 /* == 全局变量 == */
-/*
- * 状态回调表：表项顺序对应 ESta 枚举顺序，共 STA_MAX 项。
- * 由框架 Sta.c 通过 extern 引用。
- */
-const stStaCb g_kstStaCb[] =
+/* 状态回调表。 */
+// [Rst] <--------------复位请求-----------------_[Slp]
+//  /|\  \                                       /|
+//   |    \---复位---\                          /
+//   |               _\|                       /
+// [PreRst]_          [init]             _[PreSlp]
+//  /|\   |\             |               /|
+//   |      \        初始化完成         /
+//   |       \           |             /
+//   |      复位请求     |     休眠请求
+//   |              \    |    /
+//   |               \  \|/  /
+//   |                [Stby] <------------------------|
+//   |               /      \                         |
+//   |              /       唤醒请求                  |
+// 复位请求        /              _\/          待机、复位、休眠请求
+//   |            /                [NmlRdy]           |
+//   |   发生严重故障                      \          |
+//   |   /                                 启动已稳定 |
+//   | |/_                                        _\/ |
+// [Flt] <--------------发生严重故障-------------- [Nml]
+//       -----------------故障恢复--------------->
+static const stStaCb s_katStaCbTbl[] =
 {
-    {vidEntInitSta,    vidRunInitSta,    eTrfInitSta,    vidExInitSta},
-    {vidEntStbySta,    vidRunStbySta,    eTrfStbySta,    vidExStbySta},
-    {vidEntNmlRdySta,  vidRunNmlRdySta,  eTrfNmlRdySta,  vidExNmlRdySta},
-    {vidEntNmlSta,     vidRunNmlSta,     eTrfNmlSta,     vidExNmlSta},
-    {vidEntFltSta,     vidRunFltSta,     eTrfFltSta,     vidExFltSta},
-    {vidEntPreRstSta,  vidRunPreRstSta,  eTrfPreRstSta,  vidExPreRstSta},
-    {vidEntPreSlpSta,  vidRunPreSlpSta,  eTrfPreSlpSta,  vidExPreSlpSta},
-    {vidEntRstSta,     vidRunRstSta,     eTrfRstSta,     vidExRstSta},
-    {vidEntSlpSta,     vidRunSlpSta,     eTrfSlpSta,     vidExSlpSta},
+    [DEV_STA_INIT]    = {vidEntInitSta,    vidRunInitSta,    u8TrfInitSta,    vidExInitSta},
+    [DEV_STA_STBY]    = {vidEntStbySta,    vidRunStbySta,    u8TrfStbySta,    vidExStbySta},
+    [DEV_STA_NML_RDY] = {vidEntNmlRdySta,  vidRunNmlRdySta,  u8TrfNmlRdySta,  vidExNmlRdySta},
+    [DEV_STA_NML]     = {vidEntNmlSta,     vidRunNmlSta,     u8TrfNmlSta,     vidExNmlSta},
+    [DEV_STA_FLT]     = {vidEntFltSta,     vidRunFltSta,     u8TrfFltSta,     vidExFltSta},
+    [DEV_STA_PRE_RST] = {vidEntPreRstSta,  vidRunPreRstSta,  u8TrfPreRstSta,  vidExPreRstSta},
+    [DEV_STA_PRE_SLP] = {vidEntPreSlpSta,  vidRunPreSlpSta,  u8TrfPreSlpSta,  vidExPreSlpSta},
+    [DEV_STA_RST]     = {vidEntRstSta,     vidRunRstSta,     u8TrfRstSta,     vidExRstSta},
+    [DEV_STA_SLP]     = {vidEntSlpSta,     vidRunSlpSta,     u8TrfSlpSta,     vidExSlpSta},
+};
+
+/* 状态机句柄。 */
+static stSta s_tDevSta = {
+    .pktCbTbl = s_katStaCbTbl,
+    .u8CurSta = DEV_STA_INIT,
+    .u8StaAmt = DEV_STA_AMT,
 };
 
 /* ===== 函数定义 ===== */
@@ -246,20 +270,20 @@ static void vidRunSlpSta(void)
 /**
  * @brief 初始化状态的转换处理。
  * @return 转换后的下一状态。
- * @retval STA_STBY 转换到待机状态。
+ * @retval DEV_STA_STBY 转换到待机状态。
  */
-static ESta eTrfInitSta(void)
+static u8 u8TrfInitSta(u8 u8CurSta)
 {
-    ESta eNxtSta = eGetCurSta();
+    u8 u8NxtSta = u8CurSta;
 
     if (1) // 初始化完成。
     {
-        printf("To STA_STBY\n");
+        printf("To DEV_STA_STBY\n");
 
-        eNxtSta = STA_STBY;
+        u8NxtSta = (u8)DEV_STA_STBY;
     }
 
-    return eNxtSta;
+    return u8NxtSta;
 }
 
 /**
@@ -267,37 +291,37 @@ static ESta eTrfInitSta(void)
  * @return 转换后的下一状态。
  * @retval STA_NML_RDY 转换到常态准备状态。
  */
-static ESta eTrfStbySta(void)
+static u8 u8TrfStbySta(u8 u8CurSta)
 {
-    ESta eNxtSta = eGetCurSta();
+    u8 u8NxtSta = u8CurSta;
 
     if (1) // 收到复位请求。
     {
-        printf("To STA_PRE_RST\n");
+        printf("To DEV_STA_PRE_RST\n");
 
-        eNxtSta = STA_PRE_RST;
+        u8NxtSta = (u8)DEV_STA_PRE_RST;
     }
     else if (1) // 收到休眠请求。
     {
-        printf("To STA_PRE_SLP.\n");
+        printf("To DEV_STA_PRE_SLP.\n");
 
-        eNxtSta = STA_PRE_SLP;
+        u8NxtSta = (u8)DEV_STA_PRE_SLP;
     }
     else if (1) // 发生故障。
     {
-        printf("To STA_FLT.\n");
+        printf("To DEV_STA_FLT.\n");
 
-        eNxtSta = STA_FLT;
+        u8NxtSta = (u8)DEV_STA_FLT;
     }
     else if (1) // 满足唤醒条件。
     {
-        printf("To STA_NML_RDY\n");
+        printf("To DEV_STA_NML_RDY\n");
 
-        eNxtSta = STA_NML_RDY;
+        u8NxtSta = (u8)DEV_STA_NML_RDY;
     }
 
 
-    return eNxtSta;
+    return u8NxtSta;
 }
 
 /**
@@ -305,18 +329,18 @@ static ESta eTrfStbySta(void)
  * @return 转换后的下一状态。
  * @retval STA_NML 转换到常状态。
  */
-static ESta eTrfNmlRdySta(void)
+static u8 u8TrfNmlRdySta(u8 u8CurSta)
 {
-    ESta eNxtSta = eGetCurSta();
+    u8 u8NxtSta = u8CurSta;
 
     if (1) // 设备启动达到稳定状态。
     {
-        printf("To STA_NML\n");
+        printf("To DEV_STA_NML\n");
 
-        eNxtSta = STA_NML;
+        u8NxtSta = (u8)DEV_STA_NML;
     }
 
-    return eNxtSta;
+    return u8NxtSta;
 }
 
 /**
@@ -324,24 +348,24 @@ static ESta eTrfNmlRdySta(void)
  * @return 转换后的下一状态。
  * @retval STA_FLT 转换到故障状态。
  */
-static ESta eTrfNmlSta(void)
+static u8 u8TrfNmlSta(u8 u8CurSta)
 {
-    ESta eNxtSta = eGetCurSta();
+    u8 u8NxtSta = u8CurSta;
 
     if (1) // 收到复位、休眠、待机请求。
     {
-        printf("To STA_STBY\n");
+        printf("To DEV_STA_STBY\n");
 
-        eNxtSta = STA_STBY;
+        u8NxtSta = (u8)DEV_STA_STBY;
     }
     else if (1) // 发生严重等级故障。
     {
-        printf("To STA_FLT\n");
+        printf("To DEV_STA_FLT\n");
 
-        eNxtSta = STA_FLT;
+        u8NxtSta = (u8)DEV_STA_FLT;
     }
 
-    return eNxtSta;
+    return u8NxtSta;
 }
 
 /**
@@ -349,30 +373,30 @@ static ESta eTrfNmlSta(void)
  * @return 转换后的下一状态。
  * @retval STA_PRE_RST 转换到预复位状态。
  */
-static ESta eTrfFltSta(void)
+static u8 u8TrfFltSta(u8 u8CurSta)
 {
-    ESta eNxtSta = eGetCurSta();
+    u8 u8NxtSta = u8CurSta;
 
     if (1) // 故障连续复位次数小于N或收到复位请求。
     {
-        printf("To STA_PRE_RST\n");
+        printf("To DEV_STA_PRE_RST\n");
 
-        eNxtSta = STA_PRE_RST;
+        u8NxtSta = (u8)DEV_STA_PRE_RST;
     }
     else if (1) // 收到休眠请求。
     {
-        printf("To STA_PRE_SLP\n");
+        printf("To DEV_STA_PRE_SLP\n");
 
-        eNxtSta = STA_PRE_SLP;
+        u8NxtSta = (u8)DEV_STA_PRE_SLP;
     }
     else if (1) // 严重故障都恢复。
     {
-        printf("To STA_NML\n");
+        printf("To DEV_STA_NML\n");
 
-        eNxtSta = STA_NML;
+        u8NxtSta = (u8)DEV_STA_NML;
     }
 
-    return eNxtSta;
+    return u8NxtSta;
 }
 
 /**
@@ -380,18 +404,18 @@ static ESta eTrfFltSta(void)
  * @return 转换后的下一状态。
  * @retval STA_RST 转换到复位状态。
  */
-static ESta eTrfPreRstSta(void)
+static u8 u8TrfPreRstSta(u8 u8CurSta)
 {
-    ESta eNxtSta = eGetCurSta();
+    u8 u8NxtSta = u8CurSta;
 
     if (1) // 复位准备动作完成，比如停激光和电机，Flash写完成等。
     {
-        printf("To STA_RST\n");
+        printf("To DEV_STA_RST\n");
 
-        eNxtSta = STA_RST;
+        u8NxtSta = (u8)DEV_STA_RST;
     }
 
-    return eNxtSta;
+    return u8NxtSta;
 }
 
 /**
@@ -399,18 +423,18 @@ static ESta eTrfPreRstSta(void)
  * @return 转换后的下一状态。
  * @retval STA_SLP 转换到睡眠状态。
  */
-static ESta eTrfPreSlpSta(void)
+static u8 u8TrfPreSlpSta(u8 u8CurSta)
 {
-    ESta eNxtSta = eGetCurSta();
+    u8 u8NxtSta = u8CurSta;
 
     if (1) // 复位准备动作完成，比如停激光和电机，Flash写完成等。
     {
-        printf("To STA_SLP\n");
+        printf("To DEV_STA_SLP\n");
 
-        eNxtSta = STA_SLP;
+        u8NxtSta = (u8)DEV_STA_SLP;
     }
 
-    return eNxtSta;
+    return u8NxtSta;
 }
 
 /**
@@ -418,11 +442,11 @@ static ESta eTrfPreSlpSta(void)
  * @return 转换后的下一状态。
  * @retval STA_STBY 转换到待机状态。
  */
-static ESta eTrfRstSta(void)
+static u8 u8TrfRstSta(u8 u8CurSta)
 {
-    ESta eNxtSta = eGetCurSta();
+    u8 u8NxtSta = u8CurSta;
 
-    return eNxtSta;
+    return u8NxtSta;
 }
 
 /**
@@ -430,18 +454,18 @@ static ESta eTrfRstSta(void)
  * @return 转换后的下一状态。
  * @retval STA_STBY 转换到待机状态。
  */
-static ESta eTrfSlpSta(void)
+static u8 u8TrfSlpSta(u8 u8CurSta)
 {
-    ESta eNxtSta = eGetCurSta();
+    u8 u8NxtSta = u8CurSta;
 
     if (1) // 收到复位请求。
     {
-        printf("To STA_RST\n");
+        printf("To DEV_STA_RST\n");
 
-        eNxtSta = STA_RST;
+        u8NxtSta = (u8)DEV_STA_RST;
     }
 
-    return eNxtSta;
+    return u8NxtSta;
 }
 
 /* -- 状态退出函数 -- */
@@ -526,4 +550,43 @@ static void vidExSlpSta(void)
     printf("Exiting Sleep State.\n");
 }
 
-#endif // STA_IMPL_H
+/* == 全局函数 == */
+/* -- 普通函数 -- */
+/**
+ * @brief 初始化设备状态机。
+ * @return 处理结果。
+ * @retval ER_SUC 初始化成功。
+ * @retval ER_SW_UNKN 未知错误。
+ * @retval ER_SW_NUL_PTR 句柄为空指针。
+ * @retval ER_SW_INV_PARAM 状态个数为 0 或初始状态枚举值越界。
+ */
+err erInitDevSta(void)
+{
+    return erInitSta(&s_tDevSta);
+}
+
+/**
+ * @brief 设备状态机周期处理函数。
+ * @return 处理结果。
+ * @retval ER_SUC 处理成功。
+ * @retval ER_SW_UNKN 未知错误。
+ * @retval ER_SW_NUL_PTR 句柄为空指针。
+ * @retval ER_SW_INV_PARAM 状态转换函数返回了越界状态，本次不切换状态。
+ */
+err erTckDevSta(void)
+{
+    return erTckSta(&s_tDevSta);
+}
+
+/**
+ * @brief 获取当前设备状态。
+ * @param[out] kpeCurSta 当前状态枚举值指针。
+ * @return 获取结果。
+ * @retval ER_SUC 获取成功。
+ * @retval ER_SW_UNKN 未知错误。
+ * @retval ER_SW_NUL_PTR 句柄为空指针。
+ */
+err eGetCurDevSta(enDevSta* const kpeCurSta)
+{
+    return eGetCurSta(&s_tDevSta, (u8*)kpeCurSta);
+}

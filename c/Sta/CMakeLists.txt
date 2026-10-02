@@ -7,6 +7,6 @@ include_directories(.)
 include_directories(../Com)
 include_directories(../Log)
 
-set(SRC_LIST Main.c Sta.c StaImpl.c)
+set(SRC_LIST main.c Sta.c DevSta.c)
 
 add_executable(app ${SRC_LIST})

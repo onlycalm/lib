@@ -15,7 +15,7 @@
 /* ===== 宏定义 ===== */
 /* == 分类 == */
 /* -- 子分类 -- */
-#define DEFINE_TPL 0u //!<宏定义示例。
+#define DEFINE_TPL 0u //!< 宏定义示例。
 
 /* == 宏函数定义 == */
 /**
@@ -27,80 +27,79 @@
  * @return 函数返回注解。
  * @retval 对返回值的说明。
  */
-#define MacroFun() \
+#define vidMacroFun() \
 do{                \
 }while(0u)
 
 /* ===== 枚举定义 ===== */
 /**
- * @enum EnumEx
+ * @enum EEnumEx
  * @brief 枚举定义示例。
  * @details 无
  * @note 无
  * @attention 无
  */
-typedef enum EnumEx
+typedef enum EEnumEx
 {
-    EnumEx1 = 1u //!<枚举成员定义示例。
-    EnumEx1 = 2u //!<枚举成员定义示例。
-} enEnumEx;
+    EnumEx1 = 1u, //!< 枚举成员定义示例。
+    EnumEx2 = 2u, //!< 枚举成员定义示例。
+} EEnumEx;
 
 /* ===== 结构体定义 ===== */
 /**
- * @struct StructEx
+ * @struct stStructEx
  * @brief 结构体定义示例。
  * @details 无
  * @note 无
  * @attention 无
  */
-typedef struct StructEx
+typedef struct stStructEx
 {
-    bool bStructEx;   //!<结构体成员定义示例。
-    byte byStructEx;  //!<结构体成员定义示例。
-    word wStructEx;   //!<结构体成员定义示例。
-    dword dwStructEx; //!<结构体成员定义示例。
+    bl bStructEx;  //!< 结构体成员定义示例。
+    u8 u8StructEx; //!< 结构体成员定义示例。
 } stStructEx;
 
 /* ===== 联合定义 ===== */
 /**
- * @union UnionEx
+ * @union unUnionEx
  * @brief 联合定义示例。
  * @details 无
  * @note 无
  * @attention 无
  */
-typedef union UnionEx
+typedef union unUnionEx
 {
-    byte byUnionEx; //!<结构体成员定义示例。
+    u8 u8UnionEx; //!< 结构体成员定义示例。
 
     struct
     {
-        byte byUnionEx1 : 1u; //!<结构体成员定义示例。
-        byte byUnionEx2 : 1u; //!<结构体成员定义示例。
+        u8 b2UnionEx1 : 2u; //!< 结构体成员定义示例。
+        u8 b4UnionEx2 : 4u; //!< 结构体成员定义示例。
+        u8 b2Rsv      : 2u; //!< 结构体成员定义示例。
     };
 } unUnionEx;
 
 /* ===== 变量声明 ===== */
 /* == 全局变量 == */
-extern byte g_byGlVar;
-extern const byte g_kbyGlCstVar;
+extern u8 g_u8GlVar;
+extern const u8 g_ku8GlCstVar;
 
 /* ===== 函数声明 ===== */
 /* == 静态函数 == */
 /* -- 内敛函数 -- */
-extern STC_FRC_INLINE void StcForceInlineFunEx(void);
-extern STC_INLINE void StcInlineFunEx(void);
+extern STC_FRC_INLINE void vidStcForceInlineFunEx(void);
+extern STC_INLINE void vidStcInlineFunEx(void);
 
 /* -- 普通函数 -- */
 extern static void StcFunEx(void);
 
 /* ===== 变量定义 ===== */
 /* == 静态变量 == */
-static byte s_byLclVar = 0u;
+static u8 s_u8LclVar = 0u;
 
 /* == 全局变量 == */
-byte g_byGlVar = 0u;
-const byte g_kbyGlCstVar = 0u;
+u8 g_u8GlVar = 0u;
+const u8 g_ku8GlCstVar = 0u;
 enEnumEx g_eEnumEx = EnumEx1;
 stStructEx g_tStructEx = {0U};
 unUnionEx g_uUnionEx = {0U};
@@ -116,7 +115,7 @@ unUnionEx g_uUnionEx = {0U};
  * @note 无
  * @attention 无
  */
-STC_FRC_INLINE void StcForceInlineFunEx(void)
+STC_FRC_INLINE void vidStcForceInlineFunEx(void)
 {
 }
 
@@ -128,7 +127,7 @@ STC_FRC_INLINE void StcForceInlineFunEx(void)
  * @note 无
  * @attention 无
  */
-STC_INLINE void StcInlineFunEx(void)
+STC_INLINE void vidStcInlineFunEx(void)
 {
 }
 
@@ -141,7 +140,7 @@ STC_INLINE void StcInlineFunEx(void)
  * @note 无
  * @attention 无
  */
-static void StcFunEx(void)
+static void vidStcFunEx(void)
 {
 }
 
@@ -155,7 +154,7 @@ static void StcFunEx(void)
  * @note 无
  * @attention 无
  */
-WEAK void WeakFunEx(void)
+WEAK void vidWeakFunEx(void)
 {
 }
 
@@ -168,10 +167,10 @@ WEAK void WeakFunEx(void)
  * @note 无
  * @attention 无
  */
-void GlFunEx(void)
+void vidGlFunEx(void)
 {
-    const byte kbyCstVar = 0u;
-    static byte s_byStcVar = 0u;
+    const u8 ku8CstVar = 0u;
+    static u8 s_u8StcVar = 0u;
 }
 
 #endif //TPL_H

@@ -258,6 +258,7 @@ typedef enum
     ER_MOD_INTR, // Intr Module.
     ER_MOD_URT,  // Uart Module.
     ER_MOD_LOG,  // Log Module.
+    ER_MOD_STA,  // Sta Module.
 
     ER_MOD_MAX = ER_MOD_BT_FLD + 1u,
 } EErMod;

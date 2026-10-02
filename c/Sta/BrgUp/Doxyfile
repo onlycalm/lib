@@ -1,15 +1,16 @@
-# Doxyfile for lib repository
+# Doxyfile for BrgUp
 # 用法：doxygen Doxyfile
 # 文档输出：doc/html/index.html（模块文档见 Modules 页）
 
 DOXYFILE_ENCODING      = UTF-8
-PROJECT_NAME           = "Sta"
-PROJECT_BRIEF          = "状态模块"
+PROJECT_NAME           = "BrgUp"
+PROJECT_BRIEF          = "上电启动模块"
 
 OUTPUT_DIRECTORY       = doc
 OUTPUT_LANGUAGE        = Chinese
 
-INPUT                  = .
+# 文档覆盖本目录(BrgUp 实现)及框架文件(Sta.h/Sta.c)。
+INPUT                  = . ../Sta.h ../Sta.c
 INPUT_ENCODING         = UTF-8
 RECURSIVE              = YES
 FILE_PATTERNS          = *.c *.h *.md
@@ -19,9 +20,8 @@ OPTIMIZE_OUTPUT_FOR_C  = YES
 EXTRACT_ALL            = YES
 EXTRACT_STATIC         = YES
 
-# 使 #ifdef COM_H / #ifdef LOG_H 包裹的 .c 实现能被提取
-PREDEFINED             = COM_H STA_H STA_IMPL_H
-INCLUDE_PATH           = ../com
+# 头文件查找路径：Typ.h/Er.h 位于 Com，Log.h 位于 Log。
+INCLUDE_PATH           = ../../Com ../../Log
 
 GENERATE_HTML          = YES
 GENERATE_LATEX         = NO

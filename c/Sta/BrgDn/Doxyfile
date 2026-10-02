@@ -1,0 +1,31 @@
+# Doxyfile for BrgDn
+# 用法：doxygen Doxyfile
+# 文档输出：doc/html/index.html（模块文档见 Modules 页）
+
+DOXYFILE_ENCODING      = UTF-8
+PROJECT_NAME           = "BrgDn"
+PROJECT_BRIEF          = "下电启动模块"
+
+OUTPUT_DIRECTORY       = doc
+OUTPUT_LANGUAGE        = Chinese
+
+# 文档覆盖本目录(BrgDn 实现)及框架文件(Sta.h/Sta.c)。
+INPUT                  = . ../Sta.h ../Sta.c
+INPUT_ENCODING         = UTF-8
+RECURSIVE              = YES
+FILE_PATTERNS          = *.c *.h *.md
+EXCLUDE_PATTERNS       = */build/* */.cache/*
+
+OPTIMIZE_OUTPUT_FOR_C  = YES
+EXTRACT_ALL            = YES
+EXTRACT_STATIC         = YES
+
+# 头文件查找路径：Typ.h/Er.h 位于 Com，Log.h 位于 Log。
+INCLUDE_PATH           = ../../Com ../../Log
+
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+GENERATE_TREEVIEW      = YES
+
+# 调用图需要 graphviz；未安装时保持 NO，安装后可改 YES 并开启 CALL_GRAPH/CALLER_GRAPH
+HAVE_DOT               = NO

@@ -82,6 +82,10 @@ extern "C"
     u32PkgClsEr((ER_LV_ER), (ER_CD_SW_INV_PARAM), (ER_CLS_SW))
 #define ER_SW_INV_PARAM_ ER_PRN_LOG(ER_SW_INV_PARAM)
 
+#define ER_SW_NOT_SUP \
+    u32PkgClsEr((ER_LV_ER), (ER_CD_SW_NOT_SUP), (ER_CLS_SW))
+#define ER_SW_NOT_SUP_ ER_PRN_LOG(ER_SW_NOT_SUP)
+
 // Communication class.
 #define ER_COMM_TX_TMOT \
     u32PkgClsEr((ER_LV_ER), (ER_CD_COMM_TX_TMOT), (ER_CLS_COMM))
@@ -145,6 +149,7 @@ typedef enum
     ER_CD_SW_UNKN,         // Unknown.
     ER_CD_SW_NUL_PTR,      // Null Pointer.
     ER_CD_SW_INV_PARAM,    // Invalid Parameter.
+    ER_CD_SW_NOT_SUP,      // Not Supported.
 
     ER_CD_SW_MAX,
 } EErCdSw;
@@ -285,6 +290,7 @@ typedef enum
     ER_MOD_LOG,   // Log Module.
     ER_MOD_STA,   // Sta Module.
     ER_MOD_RGQUE, // RgQue Module.
+    ER_MOD_DTC,   // Dtc Module.
 
     ER_MOD_MAX,
 } EErMod;

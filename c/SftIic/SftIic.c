@@ -223,21 +223,21 @@ STC_FRC_INLINE void HdlIicNAck(void)
 }
 
 /**
- * @fn STC_FRC_INLINE void HdlIicWrBy(byte byDat)
- * @brief 处理IIC 写动作，写1byte数据。
- * @param[in] byDat 写入数据。
+ * @fn STC_FRC_INLINE void HdlIicWrU8(u8 u8Dat)
+ * @brief 处理IIC 写动作，写1个u8数据。
+ * @param[in] u8Dat 写入数据。
  * @return 故障码。
  */
-STC_FRC_INLINE void HdlIicWrBy(byte byDat)
+STC_FRC_INLINE void HdlIicWrU8(u8 u8Dat)
 {
-    byte byi = 0u;
+    u8 u8i = 0u;
 
-    for(byi = 0u; byi < 8u; byi++)
+    for(u8i = 0u; u8i < 8u; u8i++)
     {
         SetSclPol(LOW);
         CtrlBr();
-        SetSdaPol(byDat & 0x80u);
-        byDat <<= 1u;
+        SetSdaPol(u8Dat & 0x80u);
+        u8Dat <<= 1u;
         CtrlBr();
         SetSclPol(HIGH);
         CtrlBr();
@@ -249,21 +249,21 @@ STC_FRC_INLINE void HdlIicWrBy(byte byDat)
 }
 
 /**
- * @fn STC_FRC_INLINE dtc HdlIicRdBy(byte* const cpabyDat)
- * @brief 处理IIC 读动作，读1byte数据。
- * @param[out] cpabyDat 读1byte数据。
+ * @fn STC_FRC_INLINE dtc HdlIicRdU8(u8* const kpu8Dat)
+ * @brief 处理IIC 读动作，读1个u8数据。
+ * @param[out] kpu8Dat 读1个u8数据。
  * @return 故障码。
  */
-STC_FRC_INLINE dtc HdlIicRdBy(byte* const cpabyDat)
+STC_FRC_INLINE dtc HdlIicRdU8(u8* const kpu8Dat)
 {
-    byte byi = 0u;
+    u8 u8i = 0u;
     dtc dtcRtn = DTC_OK;
 
     SetSdaIn();
 
-    *cpabyDat = 0u;
+    *kpu8Dat = 0u;
 
-    for(byi = 0u; byi < 8u; byi++)
+    for(u8i = 0u; u8i < 8u; u8i++)
     {
         SetSclPol(LOW);
         CtrlBr();
@@ -271,11 +271,11 @@ STC_FRC_INLINE dtc HdlIicRdBy(byte* const cpabyDat)
         SetSclPol(HIGH);
         CtrlBr();
 
-        *cpabyDat <<= 1u;
+        *kpu8Dat <<= 1u;
 
         if(GetSdaPol())
         {
-            *cpabyDat |= 0x01u;
+            *kpu8Dat |= 0x01u;
         }
 
         CtrlBr();
@@ -318,37 +318,37 @@ STC_FRC_INLINE EIicAckTyp HdlIicWaitAck(void)
 //=============================================================================
 //普通函数
 /**
- * @fn dtc WrIicSerBy(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt,
- *                    const byte* const cpabyDat)
- * @brief IIC主设备写连续byte数据到从机。
+ * @fn dtc WrIicSerU8(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U8Amt,
+ *                    const u8* const kpku8Dat)
+ * @brief IIC主设备写连续u8数据到从机。
  * @details 先发数组小下标。
- * @param[in] cbySlvAdr 从机地址。
- * @param[in] cbyRegAdr 寄存器地址。
- * @param[in] cwByAmt 写入byte数。
- * @param[in] cpabyDat 写入数据数组指针。
+ * @param[in] ku8SlvAdr 从机地址。
+ * @param[in] ku8RegAdr 寄存器地址。
+ * @param[in] ku16U8Amt 写入u8数。
+ * @param[in] kpku8Dat 写入数据数组指针。
  * @return 故障检测码。
  * @note 7bit地址。
  */
-dtc WrIicSerBy(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, const byte* const cpabyDat)
+dtc WrIicSerU8(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U8Amt, const u8* const kpku8Dat)
 {
-    word wi = 0u;
+    u16 u16i = 0u;
     EIicAckTyp eIicAckTyp = IicAckTypNAck;
     dtc dtcRtn = DTC_OK;
 
     HdlIicStrt();
-    HdlIicWrBy((cbySlvAdr << 1u) | IicRwTypWr);
+    HdlIicWrU8((ku8SlvAdr << 1u) | IicRwTypWr);
 
     if(HdlIicWaitAck() == IicAckTypAck)
     {
-        HdlIicWrBy(cbyRegAdr);
+        HdlIicWrU8(ku8RegAdr);
 
         if(HdlIicWaitAck() == IicAckTypAck)
         {
             do
             {
-                HdlIicWrBy(cpabyDat[wi++]);
+                HdlIicWrU8(kpku8Dat[u16i++]);
                 eIicAckTyp = HdlIicWaitAck();
-            }while((eIicAckTyp == IicAckTypAck) && (wi < cwByAmt));
+            }while((eIicAckTyp == IicAckTypAck) && (u16i < ku16U8Amt));
 
             if(eIicAckTyp == IicAckTypNAck)
             {
@@ -371,71 +371,71 @@ dtc WrIicSerBy(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, c
 }
 
 /**
- * @fn dtc WrIicSerWd(const byte cbySlvAdr, const byte cbyRegAdr, cosnt word cwWdAmt,
- *                    const EEndn ceEndn, const word* const cpawDat)
- * @brief IIC主设备写连续word数据到从机。
+ * @fn dtc WrIicSerU16(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U16Amt,
+ *                    const EEndn keEndn, const u16* const kpku16Dat)
+ * @brief IIC主设备写连续u16数据到从机。
  * @details 先发数组小下标。
- * @param[in] cbySlvAdr 从机地址。
- * @param[in] cbyRegAdr 寄存器地址。
- * @param[in] cwWdAmt 写入word数。
- * @param[in] ceEndn 字节序。
+ * @param[in] ku8SlvAdr 从机地址。
+ * @param[in] ku8RegAdr 寄存器地址。
+ * @param[in] ku16U16Amt 写入u16数。
+ * @param[in] keEndn 字节序。
  * @arg EndnLe 小端。
  * @arg EndnBe 大端。
- * @param[in] cpawDat 写入数据数组指针。
+ * @param[in] kpku16Dat 写入数据数组指针。
  * @return 故障检测码。
  * @note 7bit地址。
  */
-dtc WrIicSerWd(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
-               const EEndn ceEndn, const word* const cpawDat)
+dtc WrIicSerU16(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U16Amt,
+               const EEndn keEndn, const u16* const kpku16Dat)
 {
-    byte byLoBy = 0u;
-    byte byHiBy = 0u;
-    word wi = 0u;
+    u8 u8LoU8 = 0u;
+    u8 u8HiU8 = 0u;
+    u16 u16i = 0u;
     EIicAckTyp eIicAckTyp = IicAckTypNAck;
     dtc dtcRtn = DTC_OK;
 
     HdlIicStrt();
-    HdlIicWrBy((cbySlvAdr << 1u) | IicRwTypWr);
+    HdlIicWrU8((ku8SlvAdr << 1u) | IicRwTypWr);
 
     if(HdlIicWaitAck() == IicAckTypAck)
     {
-        HdlIicWrBy(cbyRegAdr);
+        HdlIicWrU8(ku8RegAdr);
 
         if(HdlIicWaitAck() == IicAckTypAck)
         {
-            if(ceEndn == EndnLe)
+            if(keEndn == EndnLe)
             {
                 do
                 {
-                    byLoBy = (byte)(cpawDat[wi] & 0x00FFu);
-                    byHiBy = (byte)((cpawDat[wi] & 0xFF00u) >> 8u);
+                    u8LoU8 = (u8)(kpku16Dat[u16i] & 0x00FFu);
+                    u8HiU8 = (u8)((kpku16Dat[u16i] & 0xFF00u) >> 8u);
 
-                    HdlIicWrBy(byLoBy);
+                    HdlIicWrU8(u8LoU8);
                     eIicAckTyp = HdlIicWaitAck();
 
                     if(eIicAckTyp == IicAckTypAck)
                     {
-                        HdlIicWrBy(byHiBy);
+                        HdlIicWrU8(u8HiU8);
                         eIicAckTyp = HdlIicWaitAck();
                     }
-                }while((eIicAckTyp == IicAckTypAck) && (++wi < cwWdAmt));
+                }while((eIicAckTyp == IicAckTypAck) && (++u16i < ku16U16Amt));
             }
-            else if(ceEndn == EndnBe)
+            else if(keEndn == EndnBe)
             {
                 do
                 {
-                    byLoBy = (byte)(cpawDat[wi] & 0x00FFu);
-                    byHiBy = (byte)((cpawDat[wi] & 0xFF00u) >> 8u);
+                    u8LoU8 = (u8)(kpku16Dat[u16i] & 0x00FFu);
+                    u8HiU8 = (u8)((kpku16Dat[u16i] & 0xFF00u) >> 8u);
 
-                    HdlIicWrBy(byHiBy);
+                    HdlIicWrU8(u8HiU8);
                     eIicAckTyp = HdlIicWaitAck();
 
                     if(eIicAckTyp == IicAckTypAck)
                     {
-                        HdlIicWrBy(byLoBy);
+                        HdlIicWrU8(u8LoU8);
                         eIicAckTyp = HdlIicWaitAck();
                     }
-                }while((eIicAckTyp == IicAckTypAck) && (++wi < cwWdAmt));
+                }while((eIicAckTyp == IicAckTypAck) && (++u16i < ku16U16Amt));
             }
 
             if(eIicAckTyp == IicAckTypNAck)
@@ -459,41 +459,41 @@ dtc WrIicSerWd(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
 }
 
 /**
- * @fn dtc RdIicSerBy(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, byte* const cpabyDat)
- * @brief IIC主设备读从机连续byte数据。
+ * @fn dtc RdIicSerU8(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U8Amt, u8* const kpu8Dat)
+ * @brief IIC主设备读从机连续u8数据。
  * @details 先读数组小下标。
- * @param[in] cbySlvAdr 从机地址。
- * @param[in] cbyRegAdr 寄存器地址。
- * @param[in] cwByAmt 读取byte数。
- * @param[out] cpabyDat 数据存储数组指针。
+ * @param[in] ku8SlvAdr 从机地址。
+ * @param[in] ku8RegAdr 寄存器地址。
+ * @param[in] ku16U8Amt 读取u8数。
+ * @param[out] kpu8Dat 数据存储数组指针。
  * @return 故障检测码。
  * @note 7bit地址。
  */
-dtc RdIicSerBy(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, byte* const cpabyDat)
+dtc RdIicSerU8(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U8Amt, u8* const kpu8Dat)
 {
-    word wi = 0u;
+    u16 u16i = 0u;
     dtc dtcRtn = DTC_OK;
 
     HdlIicStrt();
-    HdlIicWrBy((cbySlvAdr << 1u) | IicRwTypWr);
+    HdlIicWrU8((ku8SlvAdr << 1u) | IicRwTypWr);
 
     if(HdlIicWaitAck() == IicAckTypAck)
     {
-        HdlIicWrBy(cbyRegAdr);
+        HdlIicWrU8(ku8RegAdr);
 
         if(HdlIicWaitAck() == IicAckTypAck)
         {
             HdlIicStrt();
-            HdlIicWrBy((cbySlvAdr << 1u) | IicRwTypRd);
+            HdlIicWrU8((ku8SlvAdr << 1u) | IicRwTypRd);
 
             if(HdlIicWaitAck() == IicAckTypAck)
             {
-                HdlIicRdBy(&cpabyDat[wi++]);
+                HdlIicRdU8(&kpu8Dat[u16i++]);
 
-                while(wi < cwByAmt)
+                while(u16i < ku16U8Amt)
                 {
                     HdlIicAck();
-                    HdlIicRdBy(&cpabyDat[wi++]);
+                    HdlIicRdU8(&kpu8Dat[u16i++]);
                 }
 
                 HdlIicNAck();
@@ -519,72 +519,72 @@ dtc RdIicSerBy(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, b
 }
 
 /**
- * @fn dtc RdIicSerWd(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
- *                    const EEndn ceEndn, word* const cpawDat)
- * @brief IIC主设备读从机连续word数据。
+ * @fn dtc RdIicSerU16(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U16Amt,
+ *                    const EEndn keEndn, u16* const kpu16Dat)
+ * @brief IIC主设备读从机连续u16数据。
  * @details 先读数组小下标。
- * @param[in] cbySlvAdr 从机地址。
- * @param[in] cbyRegAdr 寄存器地址。
- * @param[in] cwWdAmt 读取word数。
- * @param[in] ceEndn 字节序。
+ * @param[in] ku8SlvAdr 从机地址。
+ * @param[in] ku8RegAdr 寄存器地址。
+ * @param[in] ku16U16Amt 读取u16数。
+ * @param[in] keEndn 字节序。
  * @arg EndnLe 小端。
  * @arg EndnBe 大端。
- * @param[out] cpawDat 数据存储数组指针。
+ * @param[out] kpu16Dat 数据存储数组指针。
  * @return 故障检测码。
  * @note 7bit地址。
  */
-dtc RdIicSerWd(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
-               const EEndn ceEndn, word* const cpawDat)
+dtc RdIicSerU16(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U16Amt,
+               const EEndn keEndn, u16* const kpu16Dat)
 {
-    byte byLoBy = 0u;
-    byte byHiBy = 0u;
-    word wi = 0u;
+    u8 u8LoU8 = 0u;
+    u8 u8HiU8 = 0u;
+    u16 u16i = 0u;
     dtc dtcRtn = DTC_OK;
 
     HdlIicStrt();
-    HdlIicWrBy((cbySlvAdr << 1u) | IicRwTypWr);
+    HdlIicWrU8((ku8SlvAdr << 1u) | IicRwTypWr);
 
     if(HdlIicWaitAck() == IicAckTypAck)
     {
-        HdlIicWrBy(cbyRegAdr);
+        HdlIicWrU8(ku8RegAdr);
 
         if(HdlIicWaitAck() == IicAckTypAck)
         {
             HdlIicStrt();
-            HdlIicWrBy((cbySlvAdr << 1u) | IicRwTypRd);
+            HdlIicWrU8((ku8SlvAdr << 1u) | IicRwTypRd);
 
             if(HdlIicWaitAck() == IicAckTypAck)
             {
-                if(ceEndn == EndnLe)
+                if(keEndn == EndnLe)
                 {
-                    HdlIicRdBy(&byLoBy);
+                    HdlIicRdU8(&u8LoU8);
                     HdlIicAck();
-                    HdlIicRdBy(&byHiBy);
-                    cpawDat[wi++] = (word)byLoBy | ((word)byHiBy << 8u);
+                    HdlIicRdU8(&u8HiU8);
+                    kpu16Dat[u16i++] = (u16)u8LoU8 | ((u16)u8HiU8 << 8u);
 
-                    while(wi < cwWdAmt)
+                    while(u16i < ku16U16Amt)
                     {
                         HdlIicAck();
-                        HdlIicRdBy(&byLoBy);
+                        HdlIicRdU8(&u8LoU8);
                         HdlIicAck();
-                        HdlIicRdBy(&byHiBy);
-                        cpawDat[wi++] = (word)byLoBy | ((word)byHiBy << 8u);
+                        HdlIicRdU8(&u8HiU8);
+                        kpu16Dat[u16i++] = (u16)u8LoU8 | ((u16)u8HiU8 << 8u);
                     }
                 }
-                else if(ceEndn == EndnBe)
+                else if(keEndn == EndnBe)
                 {
-                    HdlIicRdBy(&byHiBy);
+                    HdlIicRdU8(&u8HiU8);
                     HdlIicAck();
-                    HdlIicRdBy(&byLoBy);
-                    cpawDat[wi++] = (word)byLoBy | ((word)byHiBy << 8u);
+                    HdlIicRdU8(&u8LoU8);
+                    kpu16Dat[u16i++] = (u16)u8LoU8 | ((u16)u8HiU8 << 8u);
 
-                    while(wi < cwWdAmt)
+                    while(u16i < ku16U16Amt)
                     {
                         HdlIicAck();
-                        HdlIicRdBy(&byHiBy);
+                        HdlIicRdU8(&u8HiU8);
                         HdlIicAck();
-                        HdlIicRdBy(&byLoBy);
-                        cpawDat[wi++] = (word)byLoBy | ((word)byHiBy << 8u);
+                        HdlIicRdU8(&u8LoU8);
+                        kpu16Dat[u16i++] = (u16)u8LoU8 | ((u16)u8HiU8 << 8u);
                     }
                 }
 
@@ -611,30 +611,30 @@ dtc RdIicSerWd(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
 }
 
 /**
- * @fn dtc WrIicSerByChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt,
- *                       const byte* const cpabyDat)
- * @brief IIC主设备写连续word数据到从机，带故障重试。
+ * @fn dtc WrIicSerU8Chk(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U8Amt,
+ *                       const u8* const kpku8Dat)
+ * @brief IIC主设备写连续u8数据到从机，带故障重试。
  * @details 先写数组小下标。
- * @param[in] cbySlvAdr 从机地址。
- * @param[in] cbyRegAdr 寄存器地址。
- * @param[in] cwByAmt 写入byte数。
- * @param[in] cpabyDat 写入数据数组指针。
+ * @param[in] ku8SlvAdr 从机地址。
+ * @param[in] ku8RegAdr 寄存器地址。
+ * @param[in] ku16U8Amt 写入u8数。
+ * @param[in] kpku8Dat 写入数据数组指针。
  * @return 故障检测码。
  * @note 7bit地址。
  */
-dtc WrIicSerByChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, const byte* const cpabyDat)
+dtc WrIicSerU8Chk(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U8Amt, const u8* const kpku8Dat)
 {
-    byte byWrCnt = 0u;
-    dtc dtcWrIicSerBy = DTC_OK;
+    u8 u8WrCnt = 0u;
+    dtc dtcWrIicSerU8 = DTC_OK;
     dtc dtcRtn = DTC_OK;
 
     do
     {
-        dtcWrIicSerBy = WrIicSerBy(cbySlvAdr, cbyRegAdr, cwByAmt, cpabyDat);
-        byWrCnt++;
-    }while((dtcWrIicSerBy != DTC_OK) && (byWrCnt < SFT_IIC_RETRY));
+        dtcWrIicSerU8 = WrIicSerU8(ku8SlvAdr, ku8RegAdr, ku16U8Amt, kpku8Dat);
+        u8WrCnt++;
+    }while((dtcWrIicSerU8 != DTC_OK) && (u8WrCnt < SFT_IIC_RETRY));
 
-    if(dtcWrIicSerBy != DTC_OK)
+    if(dtcWrIicSerU8 != DTC_OK)
     {
         dtcRtn = DTC_ERR;
     }
@@ -643,34 +643,34 @@ dtc WrIicSerByChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt
 }
 
 /**
- * @fn dtc WrIicSerWdChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
- *                       const EEndn ceEndn, const word* const cpawDat)
- * @brief IIC主设备写连续word数据到从机，带故障重试。
+ * @fn dtc WrIicSerU16Chk(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U16Amt,
+ *                       const EEndn keEndn, const u16* const kpku16Dat)
+ * @brief IIC主设备写连续u16数据到从机，带故障重试。
  * @details 先读数组小下标。
- * @param[in] cbySlvAdr 从机地址。
- * @param[in] cbyRegAdr 寄存器地址。
- * @param[in] cwWdAmt 写入byte数。
- * @param[in] ceEndn 字节序。
+ * @param[in] ku8SlvAdr 从机地址。
+ * @param[in] ku8RegAdr 寄存器地址。
+ * @param[in] ku16U16Amt 写入u16数。
+ * @param[in] keEndn 字节序。
  * @arg EndnLe 小端。
  * @arg EndnBe 大端。
- * @param[in] cpawDat 写入数据数组指针。
+ * @param[in] kpku16Dat 写入数据数组指针。
  * @return 故障检测码。
  * @note 7bit地址。
  */
-dtc WrIicSerWdChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
-                  const EEndn ceEndn, const word* const cpawDat)
+dtc WrIicSerU16Chk(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U16Amt,
+                  const EEndn keEndn, const u16* const kpku16Dat)
 {
-    byte byWrCnt = 0u;
-    dtc dtcWrIicSerWd = DTC_OK;
+    u8 u8WrCnt = 0u;
+    dtc dtcWrIicSerU16 = DTC_OK;
     dtc dtcRtn = DTC_OK;
 
     do
     {
-        dtcWrIicSerWd = WrIicSerWd(cbySlvAdr, cbyRegAdr, cwWdAmt, ceEndn, cpawDat);
-        byWrCnt++;
-    }while((dtcWrIicSerWd != DTC_OK) && (byWrCnt < SFT_IIC_RETRY));
+        dtcWrIicSerU16 = WrIicSerU16(ku8SlvAdr, ku8RegAdr, ku16U16Amt, keEndn, kpku16Dat);
+        u8WrCnt++;
+    }while((dtcWrIicSerU16 != DTC_OK) && (u8WrCnt < SFT_IIC_RETRY));
 
-    if(dtcWrIicSerWd != DTC_OK)
+    if(dtcWrIicSerU16 != DTC_OK)
     {
         dtcRtn = DTC_ERR;
     }
@@ -679,29 +679,29 @@ dtc WrIicSerWdChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt
 }
 
 /**
- * @fn dtc RdIicSerByChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, byte* const cpabyDat)
- * @brief IIC主设备读从机连续byte数据，带故障重试。
+ * @fn dtc RdIicSerU8Chk(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U8Amt, u8* const kpu8Dat)
+ * @brief IIC主设备读从机连续u8数据，带故障重试。
  * @details 先读数组小下标。
- * @param[in] cbySlvAdr 从机地址。
- * @param[in] cbyRegAdr 寄存器地址。
- * @param[in] cwByAmt 读取byte数。
- * @param[out] cpabyDat 数据存储数组指针。
+ * @param[in] ku8SlvAdr 从机地址。
+ * @param[in] ku8RegAdr 寄存器地址。
+ * @param[in] ku16U8Amt 读取u8数。
+ * @param[out] kpu8Dat 数据存储数组指针。
  * @return 故障检测码。
  * @note 7bit地址。
  */
-dtc RdIicSerByChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, byte* const cpabyDat)
+dtc RdIicSerU8Chk(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U8Amt, u8* const kpu8Dat)
 {
-    byte byWrCnt = 0u;
-    dtc dtcWrIicSerBy = DTC_OK;
+    u8 u8WrCnt = 0u;
+    dtc dtcRdIicSerU8 = DTC_OK;
     dtc dtcRtn = DTC_OK;
 
     do
     {
-        dtcWrIicSerBy = RdIicSerBy(cbySlvAdr, cbyRegAdr, cwByAmt, cpabyDat);
-        byWrCnt++;
-    }while((dtcWrIicSerBy != DTC_OK) && (byWrCnt < SFT_IIC_RETRY));
+        dtcRdIicSerU8 = RdIicSerU8(ku8SlvAdr, ku8RegAdr, ku16U8Amt, kpu8Dat);
+        u8WrCnt++;
+    }while((dtcRdIicSerU8 != DTC_OK) && (u8WrCnt < SFT_IIC_RETRY));
 
-    if(dtcWrIicSerBy != DTC_OK)
+    if(dtcRdIicSerU8 != DTC_OK)
     {
         dtcRtn = DTC_ERR;
     }
@@ -710,34 +710,34 @@ dtc RdIicSerByChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt
 }
 
 /**
- * @fn dtc RdIicSerWdChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
- *                       const EEndn ceEndn, word* const cpawDat)
- * @brief IIC主设备读从机连续word数据，带故障重试。
+ * @fn dtc RdIicSerU16Chk(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U16Amt,
+ *                       const EEndn keEndn, u16* const kpu16Dat)
+ * @brief IIC主设备读从机连续u16数据，带故障重试。
  * @details 先读数组小下标。
- * @param[in] cbySlvAdr 从机地址。
- * @param[in] cbyRegAdr 寄存器地址。
- * @param[in] cwWdAmt 读取word数。
- * @param[in] ceEndn 字节序。
+ * @param[in] ku8SlvAdr 从机地址。
+ * @param[in] ku8RegAdr 寄存器地址。
+ * @param[in] ku16U16Amt 读取u16数。
+ * @param[in] keEndn 字节序。
  * @arg EndnLe 小端。
  * @arg EndnBe 大端。
- * @param[out] cpawDat 数据存储数组指针。
+ * @param[out] kpu16Dat 数据存储数组指针。
  * @return 故障检测码。
  * @note 7bit地址。
  */
-dtc RdIicSerWdChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
-                  const EEndn ceEndn, word* const cpawDat)
+dtc RdIicSerU16Chk(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U16Amt,
+                  const EEndn keEndn, u16* const kpu16Dat)
 {
-    byte byWrCnt = 0u;
-    dtc dtcWrIicSerWd = DTC_OK;
+    u8 u8WrCnt = 0u;
+    dtc dtcRdIicSerU16 = DTC_OK;
     dtc dtcRtn = DTC_OK;
 
     do
     {
-        dtcWrIicSerWd = RdIicSerWd(cbySlvAdr, cbyRegAdr, cwWdAmt, ceEndn, cpawDat);
-        byWrCnt++;
-    }while((dtcWrIicSerWd != DTC_OK) && (byWrCnt < SFT_IIC_RETRY));
+        dtcRdIicSerU16 = RdIicSerU16(ku8SlvAdr, ku8RegAdr, ku16U16Amt, keEndn, kpu16Dat);
+        u8WrCnt++;
+    }while((dtcRdIicSerU16 != DTC_OK) && (u8WrCnt < SFT_IIC_RETRY));
 
-    if(dtcWrIicSerWd != DTC_OK)
+    if(dtcRdIicSerU16 != DTC_OK)
     {
         dtcRtn = DTC_ERR;
     }
@@ -746,191 +746,191 @@ dtc RdIicSerWdChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt
 }
 
 /**
- * @fn dtc WrIicSerByRcl(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt,
- *                       const byte* const cpabyDat)
- * @brief IIC主设备写连续byte数据到从机，带回读重试。
- * @details 可控制byte数。
- * @param[in] cbySlvAdr 从机地址。
- * @param[in] cbyRegAdr 寄存器地址。
- * @param[in] cwByAmt 写入byte数。
- * @param[in] cpabyDat 写入数据数组指针。
+ * @fn dtc WrIicSerU8Rcl(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U8Amt,
+ *                       const u8* const kpku8Dat)
+ * @brief IIC主设备写连续u8数据到从机，带回读重试。
+ * @details 可控制u8数。
+ * @param[in] ku8SlvAdr 从机地址。
+ * @param[in] ku8RegAdr 寄存器地址。
+ * @param[in] ku16U8Amt 写入u8数。
+ * @param[in] kpku8Dat 写入数据数组指针。
  * @return 故障检测码。
  * @note 7bit地址。
  */
-dtc WrIicSerByRcl(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt, const byte* const cpabyDat)
+dtc WrIicSerU8Rcl(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U8Amt, const u8* const kpku8Dat)
 {
-    byte byWrCnt = 0u;
-    bool bEq = FALSE;
-    dtc dtcWrIicSerBy = DTC_OK;
-    dtc dtcRdIicSerBy = DTC_OK;
+    u8 u8WrCnt = 0u;
+    bl bEq = FALSE;
+    dtc dtcWrIicSerU8 = DTC_OK;
+    dtc dtcRdIicSerU8 = DTC_OK;
     dtc dtcRtn = DTC_OK;
-    byte* pabyRclDat = (byte*)malloc(cwByAmt * BY_SZ);
+    u8* pu8RclDat = (u8*)malloc(ku16U8Amt * sizeof(u8));
 
     do
     {
-        dtcWrIicSerBy = WrIicSerByChk(cbySlvAdr, cbyRegAdr, cwByAmt, cpabyDat);
-        dtcRdIicSerBy = RdIicSerByChk(cbySlvAdr, cbyRegAdr, cwByAmt, pabyRclDat);
+        dtcWrIicSerU8 = WrIicSerU8Chk(ku8SlvAdr, ku8RegAdr, ku16U8Amt, kpku8Dat);
+        dtcRdIicSerU8 = RdIicSerU8Chk(ku8SlvAdr, ku8RegAdr, ku16U8Amt, pu8RclDat);
 
-        if((dtcWrIicSerBy == DTC_OK) && (dtcRdIicSerBy == DTC_OK))
+        if((dtcWrIicSerU8 == DTC_OK) && (dtcRdIicSerU8 == DTC_OK))
         {
-            if(CmpBy(cpabyDat, pabyRclDat, cwByAmt))
+            if(CmpU8(kpku8Dat, pu8RclDat, ku16U8Amt))
             {
                 bEq = TRUE;
             }
         }
 
-        byWrCnt++;
-    }while((byWrCnt < SFT_IIC_RETRY) && (bEq == FALSE));
+        u8WrCnt++;
+    }while((u8WrCnt < SFT_IIC_RETRY) && (bEq == FALSE));
 
     if(bEq == FALSE)
     {
         dtcRtn = DTC_ERR;
     }
 
-    free(pabyRclDat);
+    free(pu8RclDat);
 
     return dtcRtn;
 }
 
 /**
- * @fn dtc WrIicSerWdRcl(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
- *                       const EEndn ceEndn, const word* const cpawDat)
- * @brief IIC主设备写连续byte数据到从机，带回读重试。
+ * @fn dtc WrIicSerU16Rcl(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U16Amt,
+ *                       const EEndn keEndn, const u16* const kpku16Dat)
+ * @brief IIC主设备写连续u16数据到从机，带回读重试。
  * @details 先发数组小下标。
- * @param[in] cbySlvAdr 从机地址。
- * @param[in] cbyRegAdr 寄存器地址。
- * @param[in] cwWdAmt 写入word数。
- * @param[in] ceEndn 字节序。
+ * @param[in] ku8SlvAdr 从机地址。
+ * @param[in] ku8RegAdr 寄存器地址。
+ * @param[in] ku16U16Amt 写入u16数。
+ * @param[in] keEndn 字节序。
  * @arg EndnLe 小端。
  * @arg EndnBe 大端。
- * @param[in] cpawDat 写入数据数组指针。
+ * @param[in] kpku16Dat 写入数据数组指针。
  * @return 故障检测码。
  * @note 7bit地址。
  */
-dtc WrIicSerWdRcl(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
-                  const EEndn ceEndn, const word* const cpawDat)
+dtc WrIicSerU16Rcl(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U16Amt,
+                  const EEndn keEndn, const u16* const kpku16Dat)
 {
-    byte byWrCnt = 0u;
-    bool bEq = FALSE;
-    dtc dtcWrIicSerWd = DTC_OK;
-    dtc dtcRdIicSerWd = DTC_OK;
+    u8 u8WrCnt = 0u;
+    bl bEq = FALSE;
+    dtc dtcWrIicSerU16 = DTC_OK;
+    dtc dtcRdIicSerU16 = DTC_OK;
     dtc dtcRtn = DTC_OK;
-    word* pawRclDat = (word*)malloc(cwWdAmt * WD_SZ);
+    u16* pu16RclDat = (u16*)malloc(ku16U16Amt * sizeof(u16));
 
     do
     {
-        dtcWrIicSerWd = WrIicSerWdChk(cbySlvAdr, cbyRegAdr, cwWdAmt, ceEndn, cpawDat);
-        dtcRdIicSerWd = RdIicSerWdChk(cbySlvAdr, cbyRegAdr, cwWdAmt, ceEndn, pawRclDat);
+        dtcWrIicSerU16 = WrIicSerU16Chk(ku8SlvAdr, ku8RegAdr, ku16U16Amt, keEndn, kpku16Dat);
+        dtcRdIicSerU16 = RdIicSerU16Chk(ku8SlvAdr, ku8RegAdr, ku16U16Amt, keEndn, pu16RclDat);
 
-        if((dtcWrIicSerWd == DTC_OK) && (dtcRdIicSerWd == DTC_OK))
+        if((dtcWrIicSerU16 == DTC_OK) && (dtcRdIicSerU16 == DTC_OK))
         {
-            if(CmpWd(cpawDat, pawRclDat, cwWdAmt))
+            if(CmpU16(kpku16Dat, pu16RclDat, ku16U16Amt))
             {
                 bEq = TRUE;
             }
         }
 
-        byWrCnt++;
-    }while((byWrCnt < SFT_IIC_RETRY) && (bEq == FALSE));
+        u8WrCnt++;
+    }while((u8WrCnt < SFT_IIC_RETRY) && (bEq == FALSE));
 
     if(bEq == FALSE)
     {
         dtcRtn = DTC_ERR;
     }
 
-    free(pawRclDat);
+    free(pu16RclDat);
 
     return dtcRtn;
 }
 
 /**
- * @fn dtc WrIicBy(const byte cbySlvAdr, const byte cbyRegAdr, const byte cbyDat)
- * @brief IIC主设备写byte数据到从机。
- * @details 写入byte数据。
- * @param[in] cbySlvAdr 从机地址。
- * @param[in] cbyRegAdr 寄存器地址。
- * @param[in] cbyDat 写数据。
+ * @fn dtc WrIicU8(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u8 ku8Dat)
+ * @brief IIC主设备写u8数据到从机。
+ * @details 写入u8数据。
+ * @param[in] ku8SlvAdr 从机地址。
+ * @param[in] ku8RegAdr 寄存器地址。
+ * @param[in] ku8Dat 写数据。
  * @return 故障检测码。
  */
-dtc WrIicBy(const byte cbySlvAdr, const byte cbyRegAdr, const byte cbyDat)
+dtc WrIicU8(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u8 ku8Dat)
 {
-    byte byDat = cbyDat;
+    u8 u8Dat = ku8Dat;
 
-    return WrIicSerByRcl(cbySlvAdr, cbyRegAdr, 1u, &byDat);
+    return WrIicSerU8Rcl(ku8SlvAdr, ku8RegAdr, 1u, &u8Dat);
 }
 
 /**
- * @fn dtc WrIicWd(const byte cbySlvAdr, const byte cbyRegAdr, const EEndn ceEndn, const word cwDat)
- * @brief IIC主设备写word数据到从机。
+ * @fn dtc WrIicU16(const u8 ku8SlvAdr, const u8 ku8RegAdr, const EEndn keEndn, const u16 ku16Dat)
+ * @brief IIC主设备写u16数据到从机。
  * @details 区分字节序。
- * @param[in] cbySlvAdr 从机地址。
- * @param[in] cbyRegAdr 寄存器地址。
- * @param[in] ceEndn 字节序。
+ * @param[in] ku8SlvAdr 从机地址。
+ * @param[in] ku8RegAdr 寄存器地址。
+ * @param[in] keEndn 字节序。
  * @arg EndnLe 小端。
  * @arg EndnBe 大端。
- * @param[in] cwDat 写数据。
+ * @param[in] ku16Dat 写数据。
  * @return 故障检测码。
  */
-dtc WrIicWd(const byte cbySlvAdr, const byte cbyRegAdr, const EEndn ceEndn, const word cwDat)
+dtc WrIicU16(const u8 ku8SlvAdr, const u8 ku8RegAdr, const EEndn keEndn, const u16 ku16Dat)
 {
-    word wDat = cwDat;
+    u16 u16Dat = ku16Dat;
 
-    return WrIicSerWdRcl(cbySlvAdr, cbyRegAdr, 1u, ceEndn, &wDat);
+    return WrIicSerU16Rcl(ku8SlvAdr, ku8RegAdr, 1u, keEndn, &u16Dat);
 }
 
 /**
- * @fn dtc RdIicBy(const byte cbySlvAdr, const byte cbyRegAdr, byte* const cpbyDat)
- * @brief IIC主设备读从机byte数据。
- * @details 读取byte数据。
- * @param[in] cbySlvAdr 从机地址。
- * @param[in] cbyRegAdr 寄存器地址。
- * @param[out] cpbyDat 读取数据。
+ * @fn dtc RdIicU8(const u8 ku8SlvAdr, const u8 ku8RegAdr, u8* const kpu8Dat)
+ * @brief IIC主设备读从机u8数据。
+ * @details 读取u8数据。
+ * @param[in] ku8SlvAdr 从机地址。
+ * @param[in] ku8RegAdr 寄存器地址。
+ * @param[out] kpu8Dat 读取数据。
  * @return 故障检测码。
  */
-dtc RdIicBy(const byte cbySlvAdr, const byte cbyRegAdr, byte* const cpbyDat)
+dtc RdIicU8(const u8 ku8SlvAdr, const u8 ku8RegAdr, u8* const kpu8Dat)
 {
-    return RdIicSerByChk(cbySlvAdr, cbyRegAdr, 1u, cpbyDat);
+    return RdIicSerU8Chk(ku8SlvAdr, ku8RegAdr, 1u, kpu8Dat);
 }
 
 /**
- * @fn dtc RdIicWd(const byte cbySlvAdr, const byte cbyRegAdr, const EEndn ceEndn, word* const cpwDat)
- * @brief IIC主设备读从机word数据。
+ * @fn dtc RdIicU16(const u8 ku8SlvAdr, const u8 ku8RegAdr, const EEndn keEndn, u16* const kpu16Dat)
+ * @brief IIC主设备读从机u16数据。
  * @details 区分字节序。
- * @param[in] cbySlvAdr 从机地址。
- * @param[in] cbyRegAdr 寄存器地址。
- * @param[in] ceEndn 字节序。
+ * @param[in] ku8SlvAdr 从机地址。
+ * @param[in] ku8RegAdr 寄存器地址。
+ * @param[in] keEndn 字节序。
  * @arg EndnLe 小端。
  * @arg EndnBe 大端。
- * @param[out] cpwDat 读取数据。
+ * @param[out] kpu16Dat 读取数据。
  * @return 故障检测码。
  */
-dtc RdIicWd(const byte cbySlvAdr, const byte cbyRegAdr, const EEndn ceEndn, word* const cpwDat)
+dtc RdIicU16(const u8 ku8SlvAdr, const u8 ku8RegAdr, const EEndn keEndn, u16* const kpu16Dat)
 {
-    return RdIicSerWdChk(cbySlvAdr, cbyRegAdr, 1u, ceEndn, cpwDat);
+    return RdIicSerU16Chk(ku8SlvAdr, ku8RegAdr, 1u, keEndn, kpu16Dat);
 }
 
 /**
- * @fn dtc ModByBit(const byte cbySlvAdr, const byte cbyRegAdr, const byte cbyMap, const byte cbyMd)
- * @brief 修改byte位。
+ * @fn dtc ModU8Bit(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u8 ku8Map, const u8 ku8Md)
+ * @brief 修改u8位。
  * @details 置位或复位寄存器位。
- * @param[in] cbySlvAdr 从机地址。
- * @param[in] cbyRegAdr 寄存器地址。
- * @param[in] cbyMap 寄存器映射位。
- * @param[in] cbyMd 模式。
+ * @param[in] ku8SlvAdr 从机地址。
+ * @param[in] ku8RegAdr 寄存器地址。
+ * @param[in] ku8Map 寄存器映射位。
+ * @param[in] ku8Md 模式。
  * @arg RESET 复位映射位。
  * @arg SET 置位映射位。
  * @return 故障检测码。
  */
-dtc ModByBit(const byte cbySlvAdr, const byte cbyRegAdr, const byte cbyMap, const byte cbyMd)
+dtc ModU8Bit(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u8 ku8Map, const u8 ku8Md)
 {
-    byte byTmp = 0u;
+    u8 u8Tmp = 0u;
     dtc dtcRtn = DTC_OK;
 
-    if(!RdIicBy(cbySlvAdr, cbyRegAdr, &byTmp))
+    if(!RdIicU8(ku8SlvAdr, ku8RegAdr, &u8Tmp))
     {
-        byTmp = cbyMd ? SetMapBit(byTmp, cbyMap) : RstMapBit(byTmp, cbyMap);
+        u8Tmp = ku8Md ? SetMapBit(u8Tmp, ku8Map) : RstMapBit(u8Tmp, ku8Map);
 
-        if(WrIicBy(cbySlvAdr, cbyRegAdr, byTmp))
+        if(WrIicU8(ku8SlvAdr, ku8RegAdr, u8Tmp))
         {
             dtcRtn = DTC_ERR;
         }
@@ -944,32 +944,32 @@ dtc ModByBit(const byte cbySlvAdr, const byte cbyRegAdr, const byte cbyMap, cons
 }
 
 /**
- * @fn dtc ModWdBit(const byte cbySlvAdr, const byte cbyRegAdr, const byte cbyMd,
- *                  const EEndn ceEndn, const word cwMap)
- * @brief 修改word位。
+ * @fn dtc ModU16Bit(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u8 ku8Md,
+ *                  const EEndn keEndn, const u16 ku16Map)
+ * @brief 修改u16位。
  * @details 置位或复位寄存器位，区分字节序。
- * @param[in] cbySlvAdr 从机地址。
- * @param[in] cbyRegAdr 寄存器地址。
- * @param[in] cbyMd 模式。
+ * @param[in] ku8SlvAdr 从机地址。
+ * @param[in] ku8RegAdr 寄存器地址。
+ * @param[in] ku8Md 模式。
  * @arg RESET 复位映射位。
  * @arg SET 置位映射位。
- * @param[in] ceEndn 字节序。
+ * @param[in] keEndn 字节序。
  * @arg EndnLe 小端。
  * @arg EndnBe 大端。
- * @param[in] cwMap 寄存器映射位。
+ * @param[in] ku16Map 寄存器映射位。
  * @return 故障检测码。
  */
-dtc ModWdBit(const byte cbySlvAdr, const byte cbyRegAdr, const byte cbyMd, const EEndn ceEndn,
-             const word cwMap)
+dtc ModU16Bit(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u8 ku8Md, const EEndn keEndn,
+             const u16 ku16Map)
 {
-    word wTmp = 0u;
+    u16 u16Tmp = 0u;
     dtc dtcRtn = DTC_OK;
 
-    if(!RdIicWd(cbySlvAdr, cbyRegAdr, ceEndn, &wTmp))
+    if(!RdIicU16(ku8SlvAdr, ku8RegAdr, keEndn, &u16Tmp))
     {
-        wTmp = cbyMd ? SetMapBit(wTmp, cwMap) : RstMapBit(wTmp, cwMap);
+        u16Tmp = ku8Md ? SetMapBit(u16Tmp, ku16Map) : RstMapBit(u16Tmp, ku16Map);
 
-        if(WrIicWd(cbySlvAdr, cbyRegAdr, ceEndn, wTmp))
+        if(WrIicU16(ku8SlvAdr, ku8RegAdr, keEndn, u16Tmp))
         {
             dtcRtn = DTC_ERR;
         }

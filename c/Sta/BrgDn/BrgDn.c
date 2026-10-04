@@ -10,6 +10,7 @@
  */
 
 #include <stdio.h>
+#include "Com.h"
 #include "Sta.h"
 #include "BrgDn.h"
 
@@ -53,6 +54,10 @@ static const stStaCb s_katBrgDnCbTbl[] =
     [BRG_DN_STG_WAIT]     = {vidEntStgWaitSta,     vidRunStgWaitSta,     u8TrfStgWaitSta,     vidExStgWaitSta},
     [BRG_DN_DONE]         = {vidEntDoneSta,        vidRunDoneSta,        u8TrfDoneSta,        vidExDoneSta},
 };
+
+// 校验状态枚举数量与回调表元素数量一致。
+ER_ENUM_ASSERT(BRG_DN_AMT ==
+               (sizeof(s_katBrgDnCbTbl) / sizeof(s_katBrgDnCbTbl[0])));
 
 /* 状态机句柄。 */
 static stSta s_tBrgDn = {

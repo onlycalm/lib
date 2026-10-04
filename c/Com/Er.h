@@ -18,8 +18,9 @@ extern "C"
 {
 #endif
 
-#include "Typ.h"
+#include "Com.h"
 #include "Log.h"
+#include "Typ.h"
 
 #ifndef ER_DOM
 #error Please define ER_DOM
@@ -95,6 +96,14 @@ extern "C"
     u32PkgClsEr((ER_LV_ER), (ER_CD_DAT_OVF), (ER_CLS_DAT))
 #define ER_DAT_OVF_ ER_PRN_LOG(ER_DAT_OVF)
 
+#define ER_DAT_FUL \
+    u32PkgClsEr((ER_LV_ER), (ER_CD_DAT_FUL), (ER_CLS_DAT))
+#define ER_DAT_FUL_ ER_PRN_LOG(ER_DAT_FUL)
+
+#define ER_DAT_EMPTY \
+    u32PkgClsEr((ER_LV_ER), (ER_CD_DAT_EMPTY), (ER_CLS_DAT))
+#define ER_DAT_EMPTY_ ER_PRN_LOG(ER_DAT_EMPTY)
+
 // File class.
 #define ER_FILE_INV_PTH \
     u32PkgClsEr((ER_LV_ER), (ER_CD_FILE_INV_PTH), (ER_CLS_FILE))
@@ -127,8 +136,9 @@ typedef enum
     ER_LV_ER,
     ER_LV_CRIT,
 
-    ER_LV_MAX = ER_LV_BT_FLD + 1u,
+    ER_LV_MAX,
 } EErLv;
+ER_ENUM_ASSERT(ER_LV_MAX <= (ER_LV_BT_FLD + 1u));
 
 typedef enum
 {
@@ -136,8 +146,9 @@ typedef enum
     ER_CD_SW_NUL_PTR,      // Null Pointer.
     ER_CD_SW_INV_PARAM,    // Invalid Parameter.
 
-    ER_CD_SW_MAX = ER_CD_BT_FLD + 1u,
+    ER_CD_SW_MAX,
 } EErCdSw;
+ER_ENUM_ASSERT(ER_CD_SW_MAX <= (ER_CD_BT_FLD + 1u));
 
 typedef enum
 {
@@ -148,31 +159,35 @@ typedef enum
     ER_CD_COMM_RX_TMOT,    // Receive timeout.
     ER_CD_COMM_TX_BSY,     // Transmit busy.
 
-    ER_CD_COMM_MAX = ER_CD_BT_FLD + 1u,
+    ER_CD_COMM_MAX,
 } EErCdComm;
+ER_ENUM_ASSERT(ER_CD_COMM_MAX <= (ER_CD_BT_FLD + 1u));
 
 typedef enum
 {
     ER_CD_PERI_INIT, // Peripheral Initialization Error.
     ER_CD_PERI_CFG,  // Peripheral Configuration Error.
 
-    ER_CD_PERI_MAX = ER_CD_BT_FLD + 1u,
+    ER_CD_PERI_MAX,
 } EErCdPeri;
+ER_ENUM_ASSERT(ER_CD_PERI_MAX <= (ER_CD_BT_FLD + 1u));
 
 typedef enum
 {
     ER_CD_SNSR_DISCONN, // Sensor Disconnected.
     ER_CD_SNSR_CFG,     // Sensor Configuration Error.
 
-    ER_CD_SNSR_MAX = ER_CD_BT_FLD + 1u,
+    ER_CD_SNSR_MAX,
 } EErCdSnsr;
+ER_ENUM_ASSERT(ER_CD_SNSR_MAX <= (ER_CD_BT_FLD + 1u));
 
 typedef enum
 {
     ER_CD_ACT_STALL, // Actuator Stalled.
 
-    ER_CD_ACT_MAX = ER_CD_BT_FLD + 1u,
+    ER_CD_ACT_MAX,
 } EErCdAct;
+ER_ENUM_ASSERT(ER_CD_ACT_MAX <= (ER_CD_BT_FLD + 1u));
 
 typedef enum
 {
@@ -180,16 +195,18 @@ typedef enum
     ER_CD_MEM_WRT_FAIL, // Memory Write Failure.
     ER_CD_MEM_RD_FAIL,  // Memory Read Failure.
 
-    ER_CD_MEM_MAX = ER_CD_BT_FLD + 1u,
+    ER_CD_MEM_MAX,
 } EErCdMem;
+ER_ENUM_ASSERT(ER_CD_MEM_MAX <= (ER_CD_BT_FLD + 1u));
 
 typedef enum
 {
     ER_CD_PROC_BRG_UP, // Bring up Error.
     ER_CD_PROC_BRG_DN, // Bring down Error.
 
-    ER_CD_PROC_MAX = ER_CD_BT_FLD + 1u,
+    ER_CD_PROC_MAX,
 } EErCdProc;
+ER_ENUM_ASSERT(ER_CD_PROC_MAX <= (ER_CD_BT_FLD + 1u));
 
 typedef enum
 {
@@ -197,8 +214,9 @@ typedef enum
     ER_CD_VRFY_ENC_FAIL,  // Encryption Failure.
     ER_CD_VRFY_CRC_FAIL,  // CRC Check Failure.
 
-    ER_CD_VRFY_MAX = ER_CD_BT_FLD + 1u,
+    ER_CD_VRFY_MAX,
 } EErCdVrfy;
+ER_ENUM_ASSERT(ER_CD_VRFY_MAX <= (ER_CD_BT_FLD + 1u));
 
 typedef enum
 {
@@ -206,31 +224,37 @@ typedef enum
     ER_CD_OS_MEM_LD_HIGH, // Memory Load Too High.
     ER_CD_OS_STK_HP_LD_HIGH, // Stack/Heap Load Too High.
 
-    ER_CD_OS_MAX = ER_CD_BT_FLD + 1u,
+    ER_CD_OS_MAX,
 } EErCdOs;
+ER_ENUM_ASSERT(ER_CD_OS_MAX <= (ER_CD_BT_FLD + 1u));
 
 typedef enum
 {
     ER_CD_ENV_TEMP_HIGH, // Temperature Too Hight.
     ER_CD_ENV_TEMP_LOW,  // Temperature Too Low.
 
-    ER_CD_ENV_MAX = ER_CD_BT_FLD + 1u,
+    ER_CD_ENV_MAX,
 } EErCdEnv;
+ER_ENUM_ASSERT(ER_CD_ENV_MAX <= (ER_CD_BT_FLD + 1u));
 
 typedef enum
 {
-    ER_CD_DAT_OVF, // Data Overflow.
+    ER_CD_DAT_OVF,   // Data Overflow.
+    ER_CD_DAT_FUL,   // Data Buffer Full.
+    ER_CD_DAT_EMPTY, // Data Buffer Empty.
 
-    ER_CD_DAT_MAX = ER_CD_BT_FLD + 1u,
+    ER_CD_DAT_MAX,
 } EErCdDat;
+ER_ENUM_ASSERT(ER_CD_DAT_MAX <= (ER_CD_BT_FLD + 1u));
 
 typedef enum
 {
     ER_CD_FILE_INV_PTH,      // Invalid Path.
     ER_CD_FILE_CRT_DIR_FAIL, // Create Directory Failure.
 
-    ER_CD_FILE_MAX = ER_CD_BT_FLD + 1u,
+    ER_CD_FILE_MAX,
 } EErCdFile;
+ER_ENUM_ASSERT(ER_CD_FILE_MAX <= (ER_CD_BT_FLD + 1u));
 
 typedef enum
 {
@@ -247,38 +271,45 @@ typedef enum
     ER_CLS_DAT,  // Data Class.
     ER_CLS_FILE, // File Class.
 
-    ER_CLS_MAX = ER_CLS_BT_FLD + 1u,
+    ER_CLS_MAX,
 } EErCls;
+ER_ENUM_ASSERT(ER_CLS_MAX <= (ER_CLS_BT_FLD + 1u));
 
 typedef enum
 {
-    ER_MOD_GPIO, // Gpio Module.
-    ER_MOD_CLK,  // Clk Module.
-    ER_MOD_COM,  // Common Module.
-    ER_MOD_INTR, // Intr Module.
-    ER_MOD_URT,  // Uart Module.
-    ER_MOD_LOG,  // Log Module.
-    ER_MOD_STA,  // Sta Module.
+    ER_MOD_GPIO,  // Gpio Module.
+    ER_MOD_CLK,   // Clk Module.
+    ER_MOD_COM,   // Common Module.
+    ER_MOD_INTR,  // Intr Module.
+    ER_MOD_URT,   // Uart Module.
+    ER_MOD_LOG,   // Log Module.
+    ER_MOD_STA,   // Sta Module.
+    ER_MOD_RGQUE, // RgQue Module.
 
-    ER_MOD_MAX = ER_MOD_BT_FLD + 1u,
+    ER_MOD_MAX,
 } EErMod;
+ER_ENUM_ASSERT(ER_MOD_MAX <= (ER_MOD_BT_FLD + 1u));
 
 typedef enum
 {
     ER_SUB_DOM_ORDMCU,
     ER_SUB_DOM_ORDRTOS,
     ER_SUB_DOM_ORDBOT,
+    ER_SUB_DOM_LIB_C,
 
-    ER_SUB_DOM_MAX = ER_SUB_DOM_BT_FLD + 1u,
+    ER_SUB_DOM_MAX,
 } EErSubDom;
+ER_ENUM_ASSERT(ER_SUB_DOM_MAX <= (ER_SUB_DOM_BT_FLD + 1u));
 
 typedef enum
 {
     ER_DOM_ORD_BOT,
     ER_DOM_BAL_CAR,
+    ER_DOM_LIB,
 
-    ER_DOM_MAX = ER_DOM_BT_FLD + 1u,
+    ER_DOM_MAX,
 } EErDom;
+ER_ENUM_ASSERT(ER_DOM_MAX <= (ER_DOM_BT_FLD + 1u));
 
 #ifdef __cplusplus
 }

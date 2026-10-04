@@ -13,8 +13,8 @@
 #include "Com.h"
 #include "Log.h"
 #include "Typ.h"
-#define ER_DOM      ER_DOM_ORD_BOT
-#define ER_SUB_DOM  ER_SUB_DOM_ORDMCU
+#define ER_DOM      ER_DOM_LIB
+#define ER_SUB_DOM  ER_SUB_DOM_LIB_C
 #define ER_MOD      ER_MOD_COM
 #include "Er.h"
 
@@ -28,29 +28,29 @@
 //-----------------------------------------------------------------------------
 //普通函数
 /**
- * @fn BOOL CmpBy(const byte* const cpbyDat1, const byte* const cpbyDat2, const word cwAmt)
- * @brief 比较byte。将两个数组的元素进行一一比较，返回比较结果。
- * @param[in] cpbyDat1 数组1。
- * @param[in] cpbyDat2 数组2。
- * @param[in] cwAmt 要比较的byte数。
+ * @fn bl CmpU8(const u8* const kpku8Dat1, const u8* const kpku8Dat2, const u16 ku16Amt)
+ * @brief 比较u8。将两个数组的元素进行一一比较，返回比较结果。
+ * @param[in] kpku8Dat1 数组1。
+ * @param[in] kpku8Dat2 数组2。
+ * @param[in] ku16Amt 要比较的u8数。
  * @return 比较结果。
  * @retval TRUE 相等。
  * @retval FALSE 不相等。
  */
-BOOL CmpBy(const byte* const cpbyDat1, const byte* const cpbyDat2, const word cwAmt)
+bl CmpU8(const u8* const kpku8Dat1, const u8* const kpku8Dat2, const u16 ku16Amt)
 {
-    BOOL bEq = FALSE;
-    word wi = 0u;
+    bl bEq = FALSE;
+    u16 u16i = 0u;
 
-    for(wi = 0u; wi < cwAmt; wi++)
+    for(u16i = 0u; u16i < ku16Amt; u16i++)
     {
-        if(cpbyDat1[wi] != cpbyDat2[wi])
+        if(kpku8Dat1[u16i] != kpku8Dat2[u16i])
         {
             break;
         }
     }
 
-    if(wi == cwAmt)
+    if(u16i == ku16Amt)
     {
         bEq = TRUE;
     }
@@ -59,29 +59,29 @@ BOOL CmpBy(const byte* const cpbyDat1, const byte* const cpbyDat2, const word cw
 }
 
 /**
- * @fn BOOL CmpWd(const word* const cpwDat1, const word* const cpwDat2, const word cwAmt)
- * @brief 比较word。将两个数组的元素进行一一比较，返回比较结果。
- * @param[in] cpwDat1 数组1。
- * @param[in] cpwDat2 数组2。
- * @param[in] cwAmt 要比较的word数。
+ * @fn bl CmpU16(const u16* const kpku16Dat1, const u16* const kpku16Dat2, const u16 ku16Amt)
+ * @brief 比较u16。将两个数组的元素进行一一比较，返回比较结果。
+ * @param[in] kpku16Dat1 数组1。
+ * @param[in] kpku16Dat2 数组2。
+ * @param[in] ku16Amt 要比较的u16数。
  * @return 比较结果。
  * @retval TRUE 相等。
  * @retval FALSE 不相等。
  */
-BOOL CmpWd(const word* const cpwDat1, const word* const cpwDat2, const word cwAmt)
+bl CmpU16(const u16* const kpku16Dat1, const u16* const kpku16Dat2, const u16 ku16Amt)
 {
-    BOOL bEq = FALSE;
-    word wi = 0u;
+    bl bEq = FALSE;
+    u16 u16i = 0u;
 
-    for(wi = 0u; wi < cwAmt; wi++)
+    for(u16i = 0u; u16i < ku16Amt; u16i++)
     {
-        if(cpwDat1[wi] != cpwDat2[wi])
+        if(kpku16Dat1[u16i] != kpku16Dat2[u16i])
         {
             break;
         }
     }
 
-    if(wi == cwAmt)
+    if(u16i == ku16Amt)
     {
         bEq = TRUE;
     }
@@ -90,29 +90,29 @@ BOOL CmpWd(const word* const cpwDat1, const word* const cpwDat2, const word cwAm
 }
 
 /**
- * @fn BOOL CmpDwd(const dword* const cpdwDat1, const dword* const cpdwDat2, const word cwAmt)
- * @brief 比较dword。将两个数组的元素进行一一比较，返回比较结果。
- * @param[in] cpdwDat1 数组1。
- * @param[in] cpdwDat2 数组2。
- * @param[in] cwAmt 要比较的dword数。
+ * @fn bl CmpU32(const u32* const kpku32Dat1, const u32* const kpku32Dat2, const u16 ku16Amt)
+ * @brief 比较u32。将两个数组的元素进行一一比较，返回比较结果。
+ * @param[in] kpku32Dat1 数组1。
+ * @param[in] kpku32Dat2 数组2。
+ * @param[in] ku16Amt 要比较的u32数。
  * @return 比较结果。
  * @retval TRUE 相等。
  * @retval FALSE 不相等。
  */
-BOOL CmpDwd(const dword* const cpdwDat1, const dword* const cpdwDat2, const word cwAmt)
+bl CmpU32(const u32* const kpku32Dat1, const u32* const kpku32Dat2, const u16 ku16Amt)
 {
-    BOOL bEq = FALSE;
-    word wi = 0u;
+    bl bEq = FALSE;
+    u16 u16i = 0u;
 
-    for(wi = 0u; wi < cwAmt; wi++)
+    for(u16i = 0u; u16i < ku16Amt; u16i++)
     {
-        if(cpdwDat1[wi] != cpdwDat2[wi])
+        if(kpku32Dat1[u16i] != kpku32Dat2[u16i])
         {
             break;
         }
     }
 
-    if(wi == cwAmt)
+    if(u16i == ku16Amt)
     {
         bEq = TRUE;
     }

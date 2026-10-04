@@ -29,32 +29,32 @@
 //全局函数
 //-----------------------------------------------------------------------------
 //普通函数
-extern dtc WrIicSerBy(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt,
-                      const byte* const cpabyDat);
-extern dtc WrIicSerWd(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
-                      const EEndn ceEndn, const word* const cpawDat);
-extern dtc RdIicSerBy(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt,
-                      byte* const cpabyDat);
-extern dtc RdIicSerWd(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
-                      const EEndn ceEndn, word* const cpawDat);
-extern dtc WrIicSerByChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt,
-                         const byte* const cpabyDat);
-extern dtc WrIicSerWdChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
-                         const EEndn ceEndn, const word* const cpawDat);
-extern dtc RdIicSerByChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt,
-                         byte* const cpabyDat);
-extern dtc RdIicSerWdChk(const byte cbySlvAdr, const byte cbyRegAdr, const word cwWdAmt,
-                         const EEndn ceEndn, word* const cpawDat);
-extern dtc WrIicSerByRcl(const byte cbySlvAdr, const byte cbyRegAdr, const word cwByAmt,
-                         const byte* const cpabyDat);
-extern dtc WrIicSerWdRcl(const byte cbySlvAdr, const byte cRegAdr, const word cwWdAmt,
-                         const EEndn ceEndn, const word* const cpawDat);
-extern dtc WrIicBy(const byte cbySlvAdr, const byte cbyRegAdr, const byte cbyDat);
-extern dtc WrIicWd(const byte cbySlvAdr, const byte cbyRegAdr, const EEndn ceEndn, const word cwDat);
-extern dtc RdIicBy(const byte cbySlvAdr, const byte cbyRegAdr, byte* const cpbyDat);
-extern dtc RdIicWd(const byte cbySlvAdr, const byte cbyRegAdr, const EEndn ceEndn, word* const cpwDat);
-extern dtc ModByBit(const byte cbySlvAdr, const byte cbyRegAdr, const byte cbyMap, const byte cbyMd);
-extern dtc ModWdBit(const byte cbySlvAdr, const byte cbyRegAdr, const byte cbyMd,
-                    const EEndn ceEndn, const word cwMap);
+extern dtc WrIicSerU8(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U8Amt,
+                      const u8* const kpku8Dat);
+extern dtc WrIicSerU16(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U16Amt,
+                      const EEndn keEndn, const u16* const kpku16Dat);
+extern dtc RdIicSerU8(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U8Amt,
+                      u8* const kpu8Dat);
+extern dtc RdIicSerU16(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U16Amt,
+                      const EEndn keEndn, u16* const kpu16Dat);
+extern dtc WrIicSerU8Chk(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U8Amt,
+                         const u8* const kpku8Dat);
+extern dtc WrIicSerU16Chk(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U16Amt,
+                         const EEndn keEndn, const u16* const kpku16Dat);
+extern dtc RdIicSerU8Chk(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U8Amt,
+                         u8* const kpu8Dat);
+extern dtc RdIicSerU16Chk(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U16Amt,
+                         const EEndn keEndn, u16* const kpu16Dat);
+extern dtc WrIicSerU8Rcl(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U8Amt,
+                         const u8* const kpku8Dat);
+extern dtc WrIicSerU16Rcl(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u16 ku16U16Amt,
+                         const EEndn keEndn, const u16* const kpku16Dat);
+extern dtc WrIicU8(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u8 ku8Dat);
+extern dtc WrIicU16(const u8 ku8SlvAdr, const u8 ku8RegAdr, const EEndn keEndn, const u16 ku16Dat);
+extern dtc RdIicU8(const u8 ku8SlvAdr, const u8 ku8RegAdr, u8* const kpu8Dat);
+extern dtc RdIicU16(const u8 ku8SlvAdr, const u8 ku8RegAdr, const EEndn keEndn, u16* const kpu16Dat);
+extern dtc ModU8Bit(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u8 ku8Map, const u8 ku8Md);
+extern dtc ModU16Bit(const u8 ku8SlvAdr, const u8 ku8RegAdr, const u8 ku8Md,
+                     const EEndn keEndn, const u16 ku16Map);
 
 #endif //SFT_IIC_H

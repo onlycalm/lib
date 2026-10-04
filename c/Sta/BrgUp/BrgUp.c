@@ -10,6 +10,7 @@
  */
 
 #include <stdio.h>
+#include "Com.h"
 #include "Sta.h"
 #include "BrgUp.h"
 
@@ -79,6 +80,10 @@ static const stStaCb s_katBrgUpCbTbl[] =
     [BRG_UP_CTL_STBL]     = {vidEntCtlStblSta,     vidRunCtlStblSta,     u8TrfCtlStblSta,     vidExCtlStblSta},
     [BRG_UP_DONE]         = {vidEntDoneSta,        vidRunDoneSta,        u8TrfDoneSta,        vidExDoneSta},
 };
+
+// 校验状态枚举数量与回调表元素数量一致。
+ER_ENUM_ASSERT(BRG_UP_AMT ==
+               (sizeof(s_katBrgUpCbTbl) / sizeof(s_katBrgUpCbTbl[0])));
 
 /* 状态机句柄。 */
 static stSta s_tBrgUp = {

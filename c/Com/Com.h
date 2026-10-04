@@ -134,6 +134,24 @@ extern "C" {
            SetBitFld((u8By3), 24u, 0xFF000000u)))
 #define bInRng(Val, Min, Max) (((Val) >= (Min)) && ((Val) <= (Max)))
 
+// 编译期枚举位域溢出检查开关（ENABLE 启用 / DISABLE 关闭）。
+#ifndef ER_ENUM_ASSERT_EN
+#define ER_ENUM_ASSERT_EN ENABLE
+#endif // ER_ENUM_ASSERT_EN
+
+// 枚举位域溢出编译期检查。
+// 用法：ER_ENUM_ASSERT(条件)；条件为真时通过、为假时编译报错，
+// 故条件应写成"合法情况为真"（如 条目数 <= 位域容量）。
+// 仅当开关启用且编译器支持 _Static_assert（C11 及以上）时生效，
+// 否则宏展开为无操作声明，不执行检查。
+#if (ER_ENUM_ASSERT_EN == ENABLE) && \
+    (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L))
+#define ER_ENUM_ASSERT(cond) \
+    _Static_assert(cond, "enum overflows its bit field")
+#else
+#define ER_ENUM_ASSERT(cond) struct ErEnumAssertDummy
+#endif
+
 /******************************************************************************
  * Enumeration definition                                                     *
  ******************************************************************************/
@@ -154,67 +172,67 @@ typedef enum Endn
  * Union definition                                                           *
  ******************************************************************************/
 /**
- * @enum ByFld
- * @brief Byte with bit fields.
+ * @enum U8Fld
+ * @brief u8 with bit fields.
  * @details Allows direct operation on bits.
  */
-typedef union ByFld
+typedef union U8Fld
 {
-    byte byDat; // Byte data.
+    u8 u8Dat; // u8 data.
 
     struct
     {
-        byte byB0 : 1u; //!< Bit0.
-        byte byB1 : 1u; //!< Bit1.
-        byte byB2 : 1u; //!< Bit2.
-        byte byB3 : 1u; //!< Bit3.
-        byte byB4 : 1u; //!< Bit4.
-        byte byB5 : 1u; //!< Bit5.
-        byte byB6 : 1u; //!< Bit6.
-        byte byB7 : 1u; //!< Bit7.
+        u8 u8B0 : 1u; //!< Bit0.
+        u8 u8B1 : 1u; //!< Bit1.
+        u8 u8B2 : 1u; //!< Bit2.
+        u8 u8B3 : 1u; //!< Bit3.
+        u8 u8B4 : 1u; //!< Bit4.
+        u8 u8B5 : 1u; //!< Bit5.
+        u8 u8B6 : 1u; //!< Bit6.
+        u8 u8B7 : 1u; //!< Bit7.
     };
-} UnByFld;
+} UnU8Fld;
 
 /**
- * @enum WdFld
- * @brief Word with bit fields.
+ * @enum U16Fld
+ * @brief u16 with bit fields.
  * @details Allows direct operation on bits.
  */
-typedef union WdFld
+typedef union U16Fld
 {
-    word wDat; // Word data.
+    u16 u16Dat; // u16 data.
 
     struct
     {
-        byte byB0  : 1u; //!< Bit0.
-        byte byB1  : 1u; //!< Bit1.
-        byte byB2  : 1u; //!< Bit2.
-        byte byB3  : 1u; //!< Bit3.
-        byte byB4  : 1u; //!< Bit4.
-        byte byB5  : 1u; //!< Bit5.
-        byte byB6  : 1u; //!< Bit6.
-        byte byB7  : 1u; //!< Bit7.
-        byte byB8  : 1u; //!< Bit8.
-        byte byB9  : 1u; //!< Bit9.
-        byte byB10 : 1u; //!< Bit10.
-        byte byB11 : 1u; //!< Bit11.
-        byte byB12 : 1u; //!< Bit12.
-        byte byB13 : 1u; //!< Bit13.
-        byte byB14 : 1u; //!< Bit14.
-        byte byB15 : 1u; //!< Bit15.
+        u8 u8B0  : 1u; //!< Bit0.
+        u8 u8B1  : 1u; //!< Bit1.
+        u8 u8B2  : 1u; //!< Bit2.
+        u8 u8B3  : 1u; //!< Bit3.
+        u8 u8B4  : 1u; //!< Bit4.
+        u8 u8B5  : 1u; //!< Bit5.
+        u8 u8B6  : 1u; //!< Bit6.
+        u8 u8B7  : 1u; //!< Bit7.
+        u8 u8B8  : 1u; //!< Bit8.
+        u8 u8B9  : 1u; //!< Bit9.
+        u8 u8B10 : 1u; //!< Bit10.
+        u8 u8B11 : 1u; //!< Bit11.
+        u8 u8B12 : 1u; //!< Bit12.
+        u8 u8B13 : 1u; //!< Bit13.
+        u8 u8B14 : 1u; //!< Bit14.
+        u8 u8B15 : 1u; //!< Bit15.
     };
-} UnWdFld;
+} UnU16Fld;
 
 /******************************************************************************
  * Function declaration                                                       *
  ******************************************************************************/
 //Global function.
-extern BOOL CmpBy(const byte* const cpbyDat1, const byte* const cpbyDat2,
-                  const word cwAmt);
-extern BOOL CmpWd(const word* const cpwDat1, const word* const cpwDat2,
-                  const word cwAmt);
-extern BOOL CmpDwd(const dword* const cpdwDat1, const dword* const cpdwDat2,
-                   const word cwAmt);
+extern bl CmpU8(const u8* const kpku8Dat1, const u8* const kpku8Dat2,
+                  const u16 ku16Amt);
+extern bl CmpU16(const u16* const kpku16Dat1, const u16* const kpku16Dat2,
+                  const u16 ku16Amt);
+extern bl CmpU32(const u32* const kpku32Dat1, const u32* const kpku32Dat2,
+                   const u16 ku16Amt);
 extern u16 u16CvtEndn(const u16 ku16Dat);
 extern u32 u32CvtEndn(const u32 ku32Dat);
 extern err erIpToU32(const char* const kpkcIp, EEndn eEndn, u32* const kpu32Ip);

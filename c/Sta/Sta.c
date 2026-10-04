@@ -11,8 +11,8 @@
 
 #include "Sta.h"
 #include "Typ.h"
-#define ER_DOM      ER_DOM_ORD_BOT
-#define ER_SUB_DOM  ER_SUB_DOM_ORDMCU
+#define ER_DOM      ER_DOM_LIB
+#define ER_SUB_DOM  ER_SUB_DOM_LIB_C
 #define ER_MOD      ER_MOD_STA
 #include "Er.h"
 
@@ -39,8 +39,8 @@ err erInitSta(const stSta* const kpktSta)
     {
         erRet = ER_SW_NUL_PTR;
     }
-    else if((kpktSta->u8StaAmt == 0u) ||
-            (kpktSta->u8CurSta >= kpktSta->u8StaAmt))
+    else if ((kpktSta->u8StaAmt == 0u) ||
+             (kpktSta->u8CurSta >= kpktSta->u8StaAmt))
     {
         erRet = ER_SW_INV_PARAM;
     }

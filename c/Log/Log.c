@@ -82,7 +82,7 @@ err erIsVldPth(const char* pcPth)
 {
     const char* invalid_chars = "<>\"|?*";
     const char* pcChr = NULL;
-    BOOL bInvChr = FALSE;
+    bl bInvChr = FALSE;
     err erRtn = ER_SW_UNKN;
 
     if((pcPth != NULL) && (strlen(pcPth) > 0))

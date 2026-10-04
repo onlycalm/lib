@@ -10,6 +10,7 @@
  */
 
 #include <stdio.h>
+#include "Com.h"
 #include "Sta.h"
 #include "DevSta.h"
 
@@ -92,6 +93,10 @@ static const stStaCb s_katStaCbTbl[] =
     [DEV_STA_RST]     = {vidEntRstSta,     vidRunRstSta,     u8TrfRstSta,     vidExRstSta},
     [DEV_STA_SLP]     = {vidEntSlpSta,     vidRunSlpSta,     u8TrfSlpSta,     vidExSlpSta},
 };
+
+// 校验状态枚举数量与回调表元素数量一致。
+ER_ENUM_ASSERT(DEV_STA_AMT ==
+               (sizeof(s_katStaCbTbl) / sizeof(s_katStaCbTbl[0])));
 
 /* 状态机句柄。 */
 static stSta s_tDevSta = {

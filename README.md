@@ -44,6 +44,7 @@
 | [dtc](c/dtc) | DTC(Diagnostic Trouble Code) 诊断故障码定义。 |
 | [sftiic](c/sftiic) | 软件 IIC（I2C）模块。 |
 | [tpl](c/tpl) | 代码模板（源文件/头文件格式模板）。 |
+| [rgque](c/RgQue) | 环形队列（Ring Queue）模块，基于数组的通用环形队列框架，用作通讯接收/发送缓存。 |
 
 &emsp;&emsp;log 模块文档在本地生成：进入 `c/log/` 执行 `doxygen Doxyfile`，输出到 `c/log/doc/html/`。
 

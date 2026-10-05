@@ -291,6 +291,7 @@ typedef enum
     ER_MOD_STA,   // Sta Module.
     ER_MOD_RGQUE, // RgQue Module.
     ER_MOD_DTC,   // Dtc Module.
+    ER_MOD_MON,   // Mon Module.
 
     ER_MOD_MAX,
 } EErMod;

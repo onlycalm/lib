@@ -45,6 +45,7 @@
 | [sftiic](c/sftiic) | 软件 IIC（I2C）模块。 |
 | [tpl](c/tpl) | 代码模板（源文件/头文件格式模板）。 |
 | [rgque](c/RgQue) | 环形队列（Ring Queue）模块，基于数组的通用环形队列框架，用作通讯接收/发送缓存。 |
+| [mon](c/Mon) | 模拟量监控（Monitor）模块，对采集模块传入的模拟量做阈值越限检测与回差/时间去抖，故障/恢复时触发回调。 |
 
 &emsp;&emsp;log 模块文档在本地生成：进入 `c/log/` 执行 `doxygen Doxyfile`，输出到 `c/log/doc/html/`。
 
